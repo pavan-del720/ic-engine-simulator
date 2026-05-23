@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IC Engine AI - Professional Vehicle Physics Simulator</title>
+    <meta name="description" content="Advanced IC engine simulator with real physics, vehicle diagnostics, environmental impact analysis, and PDF reports">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+    
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1a2332;
+            --border-color: #1e2d42;
+            --accent: #3b82f6;
+            --green: #10b981;
+            --orange: #f59e0b;
+            --red: #ef4444;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+        }
+
+        .header {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .logo h1 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #f1f5f9, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo span {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: block;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: rgba(16, 185, 129, 0.12);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.3); }
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 18px;
+            padding: 18px 20px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .sidebar {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 18px;
+            position: sticky;
+            top: 90px;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar-section {
+            margin-bottom: 18px;
+        }
+
+        .sidebar-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+
+        .car-btn {
+            padding: 9px 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .car-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+
+        .car-btn.active {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-color: transparent;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .car-btn.custom {
+            border-style: dashed;
+            border-color: var(--green);
+            color: var(--green);
+            grid-column: 1 / -1;
+        }
+
+        .slider-group {
+            margin-bottom: 14px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .slider-label {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .slider-val {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--border-color);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+            transition: all 0.2s;
+        }
+
+        select {
+            width: 100%;
+            padding: 9px 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            outline: none;
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .btn {
+            padding: 11px 18px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-test {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .metric-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            border-color: #2a3f5f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .metric-icon {
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+        }
+
+        .metric-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            line-height: 1.1;
+        }
+
+        .metric-unit {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .card-title {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.6rem;
+            font-weight: 700;
+        }
+
+        .badge-green {
+            background: rgba(16, 185, 129, 0.12);
+            color: #34d399;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 180px;
+        }
+
+        .chart-container.tall {
+            height: 220px;
+        }
+
+        .mini-stat {
+            background: var(--bg-tertiary);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .mini-value {
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mini-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
+        .status-list {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        .dot-green { background: #10b981; box-shadow: 0 0 6px #10b981; }
+        .dot-orange { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+        .dot-red { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
+
+        .alert {
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            border-left: 3px solid;
+            line-height: 1.4;
+        }
+
+        .alert-success { background: rgba(16, 185, 129, 0.06); border-color: #10b981; color: #6ee7b7; }
+        .alert-warning { background: rgba(245, 158, 11, 0.06); border-color: #f59e0b; color: #fcd34d; }
+        .alert-danger { background: rgba(239, 68, 68, 0.06); border-color: #ef4444; color: #fca5a5; }
+        .alert-info { background: rgba(59, 130, 246, 0.06); border-color: #3b82f6; color: #93c5fd; }
+
+        .rec-card {
+            display: flex;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            margin-bottom: 6px;
+        }
+
+        .rec-icon {
+            font-size: 1.3rem;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .rec-text h4 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .rec-text p {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        .progress-bar {
+            height: 5px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .gear-dots {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .gear-dot {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .gear-dot.active {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+            transform: scale(1.1);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 16px;
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 20px;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .spinner {
+            width: 35px;
+            height: 35px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 15px auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1200px) {
+            .container { grid-template-columns: 1fr; }
+            .sidebar { position: static; max-height: none; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .metrics-row { grid-template-columns: 1fr 1fr; }
+            .three-col { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .metrics-row { grid-template-columns: 1fr; }
+            .three-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">⚙️</div>
+            <div>
+                <h1>IC ENGINE AI</h1>
+                <span>Professional Vehicle Simulator v2.0</span>
+            </div>
+        </div>
+        <div class="status-badge">
+            <span class="pulse-dot"></span>
+            REAL-TIME PHYSICS ACTIVE
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-label">🚗 Vehicle</div>
+                <div class="car-grid" id="carGrid">
+                    <button class="car-btn active" data-car="fortuner">Fortuner</button>
+                    <button class="car-btn" data-car="bmw">BMW X5</button>
+                    <button class="car-btn" data-car="mercedes">Mercedes</button>
+                    <button class="car-btn" data-car="mahindra">Scorpio N</button>
+                    <button class="car-btn" data-car="innova">Innova</button>
+                    <button class="car-btn" data-car="harrier">Harrier</button>
+                    <button class="car-btn custom" onclick="toggleCustomForm()">+ Add Custom</button>
+                </div>
+            </div>
+
+            <div id="customForm" style="display:none;background:var(--bg-tertiary);border-radius:10px;padding:12px;margin-top:8px;border:1px dashed var(--border-color);">
+                <input type="text" id="customName" placeholder="Car Name" style="width:100%;padding:7px 10px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:6px;color:white;font-size:0.75rem;margin-bottom:6px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+                    <input type="number" id="customMass" placeholder="Mass kg" value="1500" style="padding:7px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:6px;color:white;font-size:0.7rem;">
+                    <input type="number" id="customPower" placeholder="Power HP" value="120" style="padding:7px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:6px;color:white;font-size:0.7rem;">
+                </div>
+                <button onclick="addCustomCar()" style="width:100%;margin-top:6px;padding:8px;background:linear-gradient(135deg,#3b82f6,#2563eb);border:none;border-radius:6px;color:white;font-weight:700;font-size:0.7rem;cursor:pointer;">✅ ADD VEHICLE</button>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-label">🎛️ Controls</div>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span class="slider-label">Throttle</span>
+                        <span class="slider-val" id="thrTxt">50%</span>
+                    </div>
+                    <input type="range" id="thr" min="0" max="100" value="50">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header">
+                        <span class="slider-label">Passengers</span>
+                        <span class="slider-val" id="pasTxt">2</span>
+                    </div>
+                    <input type="range" id="pas" min="0" max="6" value="2">
+                </div>
+                <select id="terrain">
+                    <option>City</option>
+                    <option selected>Highway</option>
+                    <option>Hilly</option>
+                    <option>Off-road</option>
+                </select>
+                <select id="ambientTemp">
+                    <option value="10">🌡️ Cold 10°C</option>
+                    <option value="25" selected>🌡️ Normal 25°C</option>
+                    <option value="40">🌡️ Hot 40°C</option>
+                </select>
+                <select id="windCondition">
+                    <option value="0">💨 No Wind</option>
+                    <option value="20">💨 Headwind 20km/h</option>
+                    <option value="-20">💨 Tailwind 20km/h</option>
+                </select>
+            </div>
+
+            <button class="btn btn-download" onclick="generatePDF()">📥 Download PDF Report</button>
+            <button class="btn btn-test" onclick="runAccelTest()">🏁 0-100 km/h Test</button>
+        </aside>
+
+        <main class="main-content">
+            <div class="metrics-row">
+                <div class="metric-card">
+                    <div class="metric-icon">📏</div>
+                    <div class="metric-label">Speed</div>
+                    <div class="metric-value" id="speed">0</div>
+                    <div class="metric-unit">km/h</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">⚡</div>
+                    <div class="metric-label">RPM</div>
+                    <div class="metric-value" id="rpm">0</div>
+                    <div class="metric-unit">rev/min</div>
+                    <div class="progress-bar"><div class="progress-fill" id="rpmBar" style="width:0%;background:#10b981;"></div></div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">⛽</div>
+                    <div class="metric-label">Fuel Economy</div>
+                    <div class="metric-value" id="fuel">0</div>
+                    <div class="metric-unit">km/L</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">🌡️</div>
+                    <div class="metric-label">Engine Temp</div>
+                    <div class="metric-value" id="temp">0</div>
+                    <div class="metric-unit">°C</div>
+                </div>
+            </div>
+
+            <div class="metrics-row">
+                <div class="metric-card">
+                    <div class="metric-label">Gear Position</div>
+                    <div style="font-size:2rem;font-weight:900;" id="gearTxt">1</div>
+                    <div class="gear-dots">
+                        <div class="gear-dot active" data-g="1">1</div><div class="gear-dot" data-g="2">2</div>
+                        <div class="gear-dot" data-g="3">3</div><div class="gear-dot" data-g="4">4</div>
+                        <div class="gear-dot" data-g="5">5</div><div class="gear-dot" data-g="6">6</div>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">CO₂ Emissions</div>
+                    <div class="metric-value" id="co2">0</div>
+                    <div class="metric-unit">g/km</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Engine Load</div>
+                    <div class="metric-value" id="engineLoad">40%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Efficiency Score</div>
+                    <div class="metric-value" id="effScore" style="color:#10b981;">85</div>
+                    <div class="metric-unit">/100</div>
+                    <div class="progress-bar"><div class="progress-fill" id="effBar" style="width:85%;background:#10b981;"></div></div>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">📈 Torque & Power Curve</span>
+                        <span class="badge badge-green">LIVE</span>
+                    </div>
+                    <div class="chart-container tall"><canvas id="torqueChart"></canvas></div>
+                    <div id="torqueExp" style="font-size:0.65rem;color:var(--text-muted);margin-top:6px;"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span class="card-title">💰 Running Cost</span></div>
+                    <div class="three-col" style="margin-bottom:10px;">
+                        <div class="mini-stat"><div class="mini-value" id="costPerKm">₹0</div><div class="mini-label">Per km</div></div>
+                        <div class="mini-stat"><div class="mini-value" id="costPerMonth">₹0</div><div class="mini-label">Monthly</div></div>
+                        <div class="mini-stat"><div class="mini-value" id="costPerYear">₹0</div><div class="mini-label">Yearly</div></div>
+                    </div>
+                    <div class="chart-container"><canvas id="fuelChart"></canvas></div>
+                    <div id="fuelExp" style="font-size:0.65rem;color:var(--text-muted);margin-top:6px;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🌍 Environmental Impact</span>
+                    <span class="badge badge-green">ECO ANALYSIS</span>
+                </div>
+                <div class="three-col">
+                    <div class="mini-stat"><div class="mini-value" id="co2PerKmEco">0</div><div class="mini-label">CO₂ g/km</div></div>
+                    <div class="mini-stat"><div class="mini-value" id="dailyCO2">0</div><div class="mini-label">Daily CO₂ kg</div></div>
+                    <div class="mini-stat"><div class="mini-value" id="treesNeeded">0</div><div class="mini-label">Trees/year</div></div>
+                    <div class="mini-stat"><div class="mini-value" id="airQualityIndex">0</div><div class="mini-label">Air Quality</div></div>
+                    <div class="mini-stat"><div class="mini-value" id="fuelConsumed">0</div><div class="mini-label">Fuel L/year</div></div>
+                    <div class="mini-stat"><div class="mini-value" id="carbonFootprint">0</div><div class="mini-label">Carbon tCO₂e</div></div>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <div class="card">
+                    <div class="card-header"><span class="card-title">🔍 Vehicle Health</span></div>
+                    <div class="status-list" id="vehicleStatus"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span class="card-title">⚠️ Problems</span></div>
+                    <div id="problemsList"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="card-title">💡 Recommendations</span></div>
+                <div id="recommendations"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header"><span class="card-title">⏰ Time Predictions</span></div>
+                <div class="three-col" id="timeEffects"></div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 IC Engine AI Simulator | Real Physics Engine | BSFC Calculations | Environmental Analysis</p>
+    </footer>
+
+    <div class="modal-overlay" id="pdfModal">
+        <div class="modal-box">
+            <h3 style="color:var(--accent);margin-bottom:12px;">📄 Generating PDF Report</h3>
+            <div class="spinner"></div>
+            <p style="color:var(--text-muted);font-size:0.8rem;" id="pdfStatus">Compiling vehicle analysis...</p>
+        </div>
+    </div>
+
+    <script>
+        // Vehicle Database
+        const baseCars = {
+            fortuner:{name:"Toyota Fortuner",mass:2310,power:150,powerKW:112,drag:0.36,frontalArea:2.75,wheelRadius:0.39,finalDrive:3.58,redline:3400,maxSpeed:185,gears:[4.31,2.33,1.44,1.00,0.79,0.67],engine:"2.8L Turbo Diesel",type:"SUV",fuelType:"Diesel",torqueCurve:{800:180,1200:320,1600:420,2000:450,2400:440,2800:400,3200:350,3400:320},bsfc:210,coolingCapacity:0.85,drivetrainLoss:0.18,rollingResistance:0.015,optimalRPM:2000,maxBoost:2.2,peakTorqueRPM:2000,problems:{overheating:"EGR cooler clogging - common Fortuner issue",highLoad:"Turbocharger strain - VGT vanes may stick",transmission:"Torque converter overheating in traffic"},tips:{efficiency:"Best at 1600-2400 RPM. Use 5th gear at 90 km/h."}},
+            bmw:{name:"BMW X5",mass:2145,power:250,powerKW:186,drag:0.31,frontalArea:2.6,wheelRadius:0.37,finalDrive:3.15,redline:6500,maxSpeed:245,gears:[4.71,3.14,2.11,1.67,1.28,1.00],engine:"3.0L Twin-Turbo Petrol",type:"Luxury SUV",fuelType:"Petrol",torqueCurve:{1000:250,2000:380,3000:450,4000:480,5000:460,6000:400,6500:350},bsfc:245,coolingCapacity:0.95,drivetrainLoss:0.15,rollingResistance:0.012,optimalRPM:3500,maxBoost:1.8,peakTorqueRPM:4000,problems:{overheating:"Electric water pump failure risk",highLoad:"VANOS stress - timing chain wear",transmission:"ZF 8HP harsh shifts at high temp"},tips:{efficiency:"Best at 2500-3500 RPM. 6th gear at 110 km/h."}},
+            mercedes:{name:"Mercedes GLC",mass:1980,power:190,powerKW:142,drag:0.30,frontalArea:2.5,wheelRadius:0.36,finalDrive:3.27,redline:6200,maxSpeed:235,gears:[4.38,2.86,1.92,1.37,1.00,0.82],engine:"2.0L Turbo Petrol",type:"Premium SUV",fuelType:"Petrol",torqueCurve:{1000:200,2000:350,3000:400,4000:380,5000:350,6000:300,6200:280},bsfc:240,coolingCapacity:0.90,drivetrainLoss:0.16,rollingResistance:0.013,optimalRPM:2800,maxBoost:1.6,peakTorqueRPM:3000,problems:{overheating:"Intercooler efficiency drops when hot",highLoad:"Carbon buildup on intake valves",transmission:"9G-Tronic hunts on gradients"},tips:{efficiency:"Best at 2000-3000 RPM. 6th gear at 100 km/h."}},
+            mahindra:{name:"Mahindra Scorpio N",mass:2100,power:130,powerKW:97,drag:0.39,frontalArea:2.8,wheelRadius:0.40,finalDrive:3.73,redline:4200,maxSpeed:172,gears:[4.10,2.37,1.55,1.00,0.80,0.69],engine:"2.2L mHawk Diesel",type:"Off-road SUV",fuelType:"Diesel",torqueCurve:{800:160,1200:280,1600:350,2000:380,2400:370,2800:340,3200:300,3600:260,4000:220,4200:200},bsfc:215,coolingCapacity:0.75,drivetrainLoss:0.20,rollingResistance:0.018,optimalRPM:1800,maxBoost:1.9,peakTorqueRPM:2000,problems:{overheating:"Radiator undersized for highway speeds",highLoad:"Clutch wear in heavy traffic",transmission:"Vibration above 3500 RPM"},tips:{efficiency:"Best at 1500-2200 RPM. 4th gear at 70 km/h."}},
+            innova:{name:"Toyota Innova",mass:1885,power:137,powerKW:102,drag:0.34,frontalArea:2.6,wheelRadius:0.37,finalDrive:3.90,redline:5200,maxSpeed:182,gears:[3.80,2.10,1.40,1.00,0.82,0.70],engine:"2.4L Diesel",type:"MPV",fuelType:"Diesel",torqueCurve:{800:170,1500:300,2000:360,2500:380,3000:360,3500:330,4000:290,4500:250,5000:210,5200:190},bsfc:212,coolingCapacity:0.80,drivetrainLoss:0.17,rollingResistance:0.014,optimalRPM:2200,maxBoost:1.5,peakTorqueRPM:2500,problems:{overheating:"AC condenser blocks radiator",highLoad:"Injector clogging with poor fuel",transmission:"CVT slip under full throttle"},tips:{efficiency:"Best at 1800-2600 RPM. 5th gear at 85 km/h."}},
+            harrier:{name:"Tata Harrier",mass:1920,power:125,powerKW:93,drag:0.37,frontalArea:2.7,wheelRadius:0.38,finalDrive:3.65,redline:4000,maxSpeed:178,gears:[4.20,2.34,1.52,1.00,0.78,0.67],engine:"2.0L Kryotec Diesel",type:"SUV",fuelType:"Diesel",torqueCurve:{800:150,1200:260,1600:330,2000:350,2400:340,2800:310,3200:280,3600:240,4000:210},bsfc:218,coolingCapacity:0.82,drivetrainLoss:0.19,rollingResistance:0.016,optimalRPM:1900,maxBoost:1.7,peakTorqueRPM:2000,problems:{overheating:"Oil cooler efficiency issues",highLoad:"Turbo lag below 1500 RPM",transmission:"Torque converter delays lockup"},tips:{efficiency:"Best at 1600-2200 RPM. 5th gear at 80 km/h."}}
+        };
+
+        let cars = {...baseCars}, customCars = {}, currentCar = 'fortuner', simData = {}, tChart, fChart;
+
+        function getTorque(car, rpm) {
+            const c = car.torqueCurve, r = Object.keys(c).map(Number).sort((a,b)=>a-b);
+            if(rpm<=r[0]) return c[r[0]];
+            if(rpm>=r[r.length-1]) return c[r[r.length-1]];
+            for(let i=0;i<r.length-1;i++) {
+                if(rpm>=r[i]&&rpm<=r[i+1]) {
+                    const rt=(rpm-r[i])/(r[i+1]-r[i]);
+                    return c[r[i]]+(c[r[i+1]]-c[r[i]])*rt;
+                }
+            }
+            return c[r[Math.floor(r.length/2)]];
+        }
+
+        function initCharts() {
+            tChart = new Chart(document.getElementById('torqueChart'), {
+                type:'line',data:{labels:[],datasets:[
+                    {label:'Torque (Nm)',data:[],borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.06)',fill:true,tension:0.4,pointRadius:0,borderWidth:2},
+                    {label:'Power (HP)',data:[],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.06)',fill:true,tension:0.4,pointRadius:0,borderWidth:2}
+                ]},
+                options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',usePointStyle:true,boxWidth:6}}},scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'#1e2d42'}},y:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'#1e2d42'}}}}
+            });
+            
+            fChart = new Chart(document.getElementById('fuelChart'), {
+                type:'line',data:{labels:['0','30','60','90','120','150'],datasets:[
+                    {label:'km/L',data:[],borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.06)',fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#f59e0b',borderWidth:2}
+                ]},
+                options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',usePointStyle:true,boxWidth:6}}},scales:{x:{ticks:{color:'#64748b'},grid:{color:'#1e2d42'}},y:{ticks:{color:'#64748b'},grid:{color:'#1e2d42'}}}}
+            });
+        }
+
+        function updateCharts(car) {
+            const r=Object.keys(car.torqueCurve).map(Number),t=r.map(x=>car.torqueCurve[x]),p=r.map(x=>(car.torqueCurve[x]*x*2*Math.PI)/(60*1000)*1.341);
+            tChart.data.labels=r;tChart.data.datasets[0].data=t;tChart.data.datasets[1].data=p;tChart.update();
+            const s=[0,30,60,90,120,150],fe=s.map(x=>{if(x<1)return car.fuelType==="Diesel"?18:14;return Math.max(3,(car.fuelType==="Diesel"?22:18)-(x*0.08)-(car.drag*car.frontalArea*x*x*0.0001));});
+            fChart.data.datasets[0].data=fe;fChart.update();
+            document.getElementById('torqueExp').innerHTML=`<span style="color:#10b981;">● Torque</span> Peak: <b>${Math.max(...t)} Nm @ ${car.peakTorqueRPM} RPM</b> | <span style="color:#3b82f6;">● Power</span> Max: <b>${car.power} HP</b>`;
+            document.getElementById('fuelExp').innerHTML=`Best: <b style="color:#10b981;">${fe[2].toFixed(1)} km/L @ 60 km/h</b> | Highway: ${fe[3].toFixed(1)} @ 90 | Loss at 120: <b style="color:#f59e0b;">${((1-fe[4]/fe[2])*100).toFixed(0)}%</b>`;
+        }
+
+        function toggleCustomForm() {
+            const f = document.getElementById('customForm');
+            f.style.display = f.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function addCustomCar() {
+            const name=document.getElementById('customName').value||'Custom',mass=parseFloat(document.getElementById('customMass').value)||1500,power=parseFloat(document.getElementById('customPower').value)||120,drag=parseFloat(document.getElementById('customDrag').value)||0.32,area=parseFloat(document.getElementById('customArea').value)||2.2,redline=parseInt(document.getElementById('customRedline').value)||6000,maxSpeed=parseInt(document.getElementById('customMaxSpeed').value)||180,fuelType=document.getElementById('customFuelType').value||'Petrol';
+            const id='c_'+Date.now(),pkRPM=Math.round(redline*0.55),tc={};
+            for(let i=0;i<=8;i++){const rpm=Math.round(800+(redline-800)*(i/8));let f=rpm<=pkRPM?0.5+0.5*(rpm/pkRPM):1-0.4*((rpm-pkRPM)/(redline-pkRPM));tc[rpm]=Math.round((power*5252)/redline*f);}
+            customCars[id]={name,mass,power,powerKW:power*0.7457,drag,frontalArea:area,wheelRadius:0.37,finalDrive:3.5,redline,maxSpeed,gears:[3.80,2.10,1.40,1.00,0.82,0.70],engine:`${(power/70).toFixed(1)}L ${fuelType}`,type:"Custom",fuelType,torqueCurve:tc,bsfc:fuelType==="Diesel"?215:245,coolingCapacity:0.82,drivetrainLoss:0.17,rollingResistance:0.014,optimalRPM:pkRPM,maxBoost:1.5,peakTorqueRPM:pkRPM,problems:{overheating:"Monitor temperature",highLoad:"Avoid sustained high load",transmission:"Check fluid regularly"},tips:{efficiency:`Best near ${pkRPM} RPM. Drive smoothly.`}};
+            cars={...baseCars,...customCars};currentCar=id;
+            const g=document.getElementById('carGrid'),b=document.createElement('button');b.className='car-btn active';b.setAttribute('data-car',id);b.textContent=name.length>12?name.substring(0,12)+'...':name;b.onclick=function(){selectCar(id,this);};g.insertBefore(b,g.lastElementChild);
+            document.querySelectorAll('.car-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+            document.getElementById('customForm').style.display='none';updateCharts(cars[id]);updateSim();alert(`✅ ${name} added successfully!`);
+        }
+
+        function selectCar(id,el){
+            currentCar=id;document.querySelectorAll('.car-btn').forEach(x=>x.classList.remove('active'));
+            if(el)el.classList.add('active');else document.querySelector(`[data-car="${id}"]`)?.classList.add('active');
+            document.getElementById('customForm').style.display='none';updateCharts(cars[id]);updateSim();
+        }
+
+        function updateSim(){
+            const car=cars[currentCar];if(!car)return;
+            const thr=parseFloat(document.getElementById('thr').value),pas=parseInt(document.getElementById('pas').value),ter=document.getElementById('terrain').value,amb=parseInt(document.getElementById('ambientTemp').value),wnd=parseInt(document.getElementById('windCondition').value);
+            document.getElementById('thrTxt').textContent=thr+'%';document.getElementById('pasTxt').textContent=pas;
+            const tm=car.mass+(pas*75),tr=1-Math.exp(-thr/30),ap=car.powerKW*1000*tr;
+            const gm={City:0.5,Highway:1.0,Hilly:5.0,'Off-road':8.0},sm={City:1.1,Highway:1.0,Hilly:1.3,'Off-road':2.0};
+            const ga=gm[ter]||1,sr=sm[ter]||1,rf=car.rollingResistance*tm*9.81,gf=tm*9.81*Math.sin((ga*Math.PI)/180);
+            let sp=0;for(let i=0;i<50;i++){const sms=sp/3.6,es=sms+(wnd/3.6),df=0.5*1.225*car.drag*car.frontalArea*es*Math.abs(es),trf=(rf+df+gf)*sr,wp=ap*(1-car.drivetrainLoss);let ns=trf>0?(wp/trf)*3.6:car.maxSpeed*tr;ns=Math.max(0,Math.min(ns,car.maxSpeed));if(Math.abs(ns-sp)<0.01){sp=ns;break;}sp=ns;}
+            let gear=1;[25,50,80,120,160].forEach((s,i)=>{if(sp>s)gear=i+2;});gear=Math.min(6,Math.max(1,gear));
+            const gr=car.gears[gear-1],wr=(sp/3.6)/(2*Math.PI*car.wheelRadius)*60;let rpm=wr*gr*car.finalDrive;if(rpm>car.redline&&gear<6){gear++;rpm=wr*car.gears[gear-1]*car.finalDrive;}rpm=Math.min(rpm,car.redline);if(sp<0.5)rpm=car.fuelType==="Diesel"?750:850;
+            const mt=getTorque(car,rpm),at=mt*tr,bst=(tr*car.maxBoost).toFixed(1),ep=(at*rpm*2*Math.PI)/(60*1000),fr=car.bsfc*ep,fd=car.fuelType==="Diesel"?0.84:0.75,fl=fr/(fd*1000),fe=sp>1?sp/fl:(car.fuelType==="Diesel"?18:14);
+            const hr=fl*42.5*0.65/1000;let et=amb+60+(hr*0.1/car.coolingCapacity)*(amb/25);et=Math.max(amb+20,Math.min(130,et));
+            const cpl=car.fuelType==="Diesel"?2680:2320,co2=sp>0.1?(fl*cpl)/sp:0,mp=(mt*rpm*2*Math.PI)/(60*1000),ld=mp>0?(ep/mp)*100*tr:0,ldd=Math.min(100,Math.max(5,ld)),fp=car.fuelType==="Diesel"?90:105,ck=sp>0.1?(fl*fp)/sp:0;
+            let eff=100-(co2/5)-Math.max(0,(et-90))*1.5-Math.abs(ldd-60)*1.2;eff=Math.max(5,Math.min(100,eff));
+            const dc=(co2*50)/1000,ac=(co2*12000)/1000000,tn=Math.ceil(ac*6.5),af=sp>0.1?(12000/sp)*fl:0,aq=Math.min(100,(co2/5)+(car.fuelType==="Diesel"?20:10));
+            simData={car,thr,pas,ter,amb,wnd,sp,rpm,gear,at,bst,fe,et,co2,ldd,ck,eff,tm,fl,dc,ac,tn,af,aq,tr};
+            
+            // Update UI
+            document.getElementById('speed').textContent=sp.toFixed(1);document.getElementById('rpm').textContent=rpm.toFixed(0);
+            document.getElementById('gearTxt').textContent=gear;document.getElementById('fuel').textContent=fe.toFixed(1);
+            document.getElementById('temp').textContent=et.toFixed(0);document.getElementById('co2').textContent=co2.toFixed(0);
+            document.getElementById('engineLoad').textContent=ldd.toFixed(0)+'%';
+            document.getElementById('effScore').textContent=eff.toFixed(0);
+            document.getElementById('effScore').style.color=eff>70?'#10b981':eff>50?'#f59e0b':'#ef4444';
+            document.getElementById('costPerKm').textContent='₹'+ck.toFixed(2);
+            document.getElementById('costPerMonth').textContent='₹'+(ck*1000).toFixed(0);
+            document.getElementById('costPerYear').textContent='₹'+(ck*12000).toFixed(0);
+            document.getElementById('co2PerKmEco').textContent=co2.toFixed(0);
+            document.getElementById('dailyCO2').textContent=dc.toFixed(1)+' kg';
+            document.getElementById('treesNeeded').textContent=tn;
+            document.getElementById('airQualityIndex').textContent=aq.toFixed(0)+'/100';
+            document.getElementById('fuelConsumed').textContent=af.toFixed(0)+' L';
+            document.getElementById('carbonFootprint').textContent=ac.toFixed(2);
+            
+            const rp=(rpm/car.redline)*100,rb=document.getElementById('rpmBar');
+            rb.style.width=rp+'%';rb.style.background=rp>90?'#ef4444':rp>70?'#f59e0b':'#10b981';
+            const eb=document.getElementById('effBar');eb.style.width=eff+'%';eb.style.background=eff>70?'#10b981':eff>50?'#f59e0b':'#ef4444';
+            document.querySelectorAll('.gear-dot').forEach(d=>d.classList.remove('active'));
+            const ad=document.querySelector(`[data-g="${gear}"]`);if(ad)ad.classList.add('active');
+            
+            updateStatus(car,et,ldd);updateProblems(car,thr,et,ldd,fe,ter);
+            updateRecs(car,thr,et,ldd,rpm);updateTime(car,thr,et,ldd);
+        }
+
+        function updateStatus(car,temp,load){
+            const cr=car.fuelType==="Diesel"?110:105;
+            let es='Normal',ec='#10b981',ed='dot-green',os='Good',oc='#10b981',od='dot-green',ts='Smooth',tc='#10b981',td='dot-green';
+            if(temp>cr){es='CRITICAL';ec='#ef4444';ed='dot-red';os='Burning';oc='#ef4444';od='dot-red';}
+            else if(temp>95){es='Hot';ec='#f59e0b';ed='dot-orange';os='Thinning';oc='#f59e0b';od='dot-orange';}
+            if(load>85){ts='Stressed';tc='#ef4444';td='dot-red';}else if(load>65){ts='Warm';tc='#f59e0b';td='dot-orange';}
+            document.getElementById('vehicleStatus').innerHTML=`
+                <div class="status-item"><span><span class="status-dot ${ed}"></span>Engine</span><span style="color:${ec};font-weight:600;">${es}</span></div>
+                <div class="status-item"><span><span class="status-dot ${od}"></span>Oil</span><span style="color:${oc};">${os}</span></div>
+                <div class="status-item"><span><span class="status-dot ${td}"></span>Transmission</span><span style="color:${tc};">${ts}</span></div>
+                <div class="status-item"><span>⚖️ Weight</span><span>${(simData.tm||cars[currentCar].mass).toFixed(0)} kg</span></div>
+                <div class="status-item"><span>🔧 Torque</span><span>${(simData.at||0).toFixed(0)} Nm</span></div>
+                <div class="status-item"><span>💨 Boost</span><span>${simData.bst||0} bar</span></div>
+                <div class="status-item"><span>⚡ 0-100</span><span id="accelTime">-- sec</span></div>`;
+        }
+
+        function updateProblems(car,thr,temp,load,fuel,ter){
+            let h='';const ct=car.fuelType==="Diesel"?108:105;
+            if(temp>ct)h+=`<div class="alert alert-danger"><b>🚨 CRITICAL: Engine Overheating!</b><br>${car.problems.overheating}. Temp: ${temp.toFixed(0)}°C. Stop immediately!</div>`;
+            else if(temp>95)h+=`<div class="alert alert-warning"><b>⚠️ Temperature Rising</b><br>${car.problems.overheating}</div>`;
+            if(load>88)h+=`<div class="alert alert-danger"><b>⚡ Engine Overload</b><br>${car.problems.highLoad}. Load: ${load.toFixed(0)}%</div>`;
+            else if(load>70)h+=`<div class="alert alert-warning"><b>📊 High Load</b><br>${car.problems.highLoad}</div>`;
+            if(fuel<(car.fuelType==="Diesel"?6:4))h+=`<div class="alert alert-warning"><b>⛽ Poor Fuel Economy</b><br>Only ${fuel.toFixed(1)} km/L</div>`;
+            document.getElementById('problemsList').innerHTML=h||`<div class="alert alert-success">✅ All systems normal - ${car.name} operating within design parameters</div>`;
+        }
+
+        function updateRecs(car,thr,temp,load,rpm){
+            let h='';
+            if(rpm<car.optimalRPM*0.7&&load>60)h+=`<div class="rec-card"><div class="rec-icon">⬇️</div><div class="rec-text"><h4>Downshift Recommended</h4><p>Engine lugging at ${rpm.toFixed(0)} RPM. Optimal: ${car.optimalRPM} RPM for best efficiency.</p></div></div>`;
+            else if(rpm>car.optimalRPM*1.3)h+=`<div class="rec-card"><div class="rec-icon">⬆️</div><div class="rec-text"><h4>Upshift to Save Fuel</h4><p>Running at ${rpm.toFixed(0)} RPM (${((rpm/car.redline)*100).toFixed(0)}% of redline). Shift up for better economy.</p></div></div>`;
+            if(temp>95)h+=`<div class="rec-card"><div class="rec-icon">🌡️</div><div class="rec-text"><h4>Cool Down Engine</h4><p>Turn off AC, reduce speed 20%, or take a cooling break.</p></div></div>`;
+            h+=`<div class="rec-card"><div class="rec-icon">✅</div><div class="rec-text"><h4>Optimal Driving</h4><p>${car.tips.efficiency}</p></div></div>`;
+            document.getElementById('recommendations').innerHTML=h;
+        }
+
+        function updateTime(car,thr,temp,load){
+            let s='Normal operation expected',m='Suitable for extended driving',l='Sustainable long-term operation',sc='alert-info',mc='alert-info',lc='alert-info';
+            if(temp>105){s='CRITICAL: Engine damage within 30 min. Stop!';sc='alert-danger';}
+            else if(temp>95||load>80){s='WARNING: Performance may degrade';sc='alert-warning';}
+            if(load>75||temp>95){m='Oil degrading, wear accelerating';mc='alert-warning';}
+            if(load>85||temp>105){l='CRITICAL RISK: Possible failure';lc='alert-danger';}
+            else if(load>65||temp>90){l='Accelerated wear, service soon';lc='alert-warning';}
+            document.getElementById('timeEffects').innerHTML=`
+                <div class="alert ${sc}"><b>🕐 0-2 hrs</b><br>${s}</div>
+                <div class="alert ${mc}"><b>🕑 2-4 hrs</b><br>${m}</div>
+                <div class="alert ${lc}"><b>🕒 4+ hrs</b><br>${l}</div>`;
+        }
+
+        function runAccelTest(){
+            const car=cars[currentCar],p=parseInt(document.getElementById('pas').value),tm=car.mass+(p*75),ptw=(car.powerKW*1000)/tm,t=100/(ptw*0.15);
+            document.getElementById('accelTime').textContent=t.toFixed(1)+' sec';
+            alert(`${car.name}\n\n0-100 km/h: ~${t.toFixed(1)} seconds\nPower-to-Weight: ${ptw.toFixed(1)} W/kg\n\nNote: Real-world times vary based on traction and conditions.`);
+        }
+
+        async function generatePDF() {
+            const modal = document.getElementById('pdfModal');
+            const status = document.getElementById('pdfStatus');
+            modal.classList.add('active');
+            status.textContent = 'Preparing report data...';
+            
+            try {
+                const car = cars[currentCar];
+                const d = simData;
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                // ===== PAGE 1: COVER =====
+                pdf.setFillColor(10, 14, 23);
+                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.setFontSize(32);
+                pdf.setTextColor(59, 130, 246);
+                pdf.text('IC ENGINE AI', 105, 60, { align: 'center' });
+                pdf.setFontSize(20);
+                pdf.setTextColor(255, 255, 255);
+                pdf.text('Comprehensive Vehicle', 105, 80, { align: 'center' });
+                pdf.text('Performance Analysis Report', 105, 92, { align: 'center' });
+                pdf.setFontSize(16);
+                pdf.setTextColor(16, 185, 129);
+                pdf.text(car.name, 105, 120, { align: 'center' });
+                pdf.setFontSize(11);
+                pdf.setTextColor(200, 210, 220);
+                pdf.text(`${car.engine} | ${car.power} HP | ${car.fuelType}`, 105, 135, { align: 'center' });
+                pdf.setFontSize(9);
+                pdf.setTextColor(148, 163, 184);
+                pdf.text(`Report Generated: ${new Date().toLocaleString()}`, 105, 160, { align: 'center' });
+                pdf.text('Professional Vehicle Physics Simulator | Real Physics Engine', 105, 170, { align: 'center' });
+                
+                // ===== PAGE 2: VEHICLE SPECIFICATIONS =====
+                pdf.addPage();
+                pdf.setFillColor(10, 14, 23);
+                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.setFontSize(20);
+                pdf.setTextColor(59, 130, 246);
+                pdf.text('1. VEHICLE SPECIFICATIONS', 15, 25);
+                pdf.setDrawColor(59, 130, 246);
+                pdf.line(15, 30, 195, 30);
+                pdf.setFontSize(10);
+                pdf.setTextColor(200, 210, 220);
+                const specs = [
+                    `Vehicle: ${car.name}`,
+                    `Engine: ${car.engine}`,
+                    `Power: ${car.power} HP (${car.powerKW} kW)`,
+                    `Peak Torque: ${Math.max(...Object.values(car.torqueCurve))} Nm @ ${car.peakTorqueRPM} RPM`,
+                    `Type: ${car.type} | Fuel: ${car.fuelType}`,
+                    `Curb Weight: ${car.mass} kg`,
+                    `Redline: ${car.redline} RPM | Top Speed: ${car.maxSpeed} km/h`,
+                    `Drag Coefficient: ${car.drag} | Frontal Area: ${car.frontalArea} m²`,
+                    `BSFC: ${car.bsfc} g/kWh | Drivetrain Loss: ${(car.drivetrainLoss*100).toFixed(0)}%`,
+                    `Rolling Resistance: ${car.rollingResistance} | Cooling Factor: ${car.coolingCapacity}`,
+                    `Optimal RPM: ${car.optimalRPM} | Max Boost: ${car.maxBoost} bar`
+                ];
+                specs.forEach((s, i) => pdf.text(`• ${s}`, 15, 42 + i * 10));
+                
+                // ===== PAGE 3: OPERATING PARAMETERS =====
+                pdf.addPage();
+                pdf.setFillColor(10, 14, 23);
+                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.setFontSize(20);
+                pdf.setTextColor(59, 130, 246);
+                pdf.text('2. CURRENT OPERATING PARAMETERS', 15, 25);
+                pdf.line(15, 30, 195, 30);
+                pdf.setFontSize(10);
+                pdf.setTextColor(200, 210, 220);
+                const params = [
+                    `Speed: ${d.sp?.toFixed(1) || 0} km/h`,
+                    `Engine RPM: ${d.rpm?.toFixed(0) || 0} (${((d.rpm/car.redline)*100)?.toFixed(0) || 0}% of redline)`,
+                    `Current Gear: ${d.gear || 1}`,
+                    `Torque Output: ${d.at?.toFixed(0) || 0} Nm`,
+                    `Boost Pressure: ${d.bst || 0} bar`,
+                    `Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`,
+                    `Engine Temperature: ${d.et?.toFixed(0) || 0}°C`,
+                    `CO₂ Emissions: ${d.co2?.toFixed(0) || 0} g/km`,
+                    `Engine Load: ${d.ldd?.toFixed(0) || 0}%`,
+                    `Efficiency Score: ${d.eff?.toFixed(0) || 0}/100`,
+                    `Total Weight: ${d.tm?.toFixed(0) || 0} kg`,
+                    `Throttle: ${d.thr || 0}% | Passengers: ${d.pas || 0}`,
+                    `Terrain: ${d.ter || 'Highway'} | Ambient: ${d.amb || 25}°C`,
+                    `Wind: ${d.wnd === 20 ? 'Headwind 20km/h' : d.wnd === -20 ? 'Tailwind 20km/h' : 'None'}`
+                ];
+                params.forEach((p, i) => pdf.text(`• ${p}`, 15, 42 + i * 8));
+                
+                // ===== PAGE 4: VEHICLE HEALTH STATUS =====
+                pdf.addPage();
+                pdf.setFillColor(10, 14, 23);
+                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.setFontSize(20);
+                pdf.setTextColor(16, 185, 129);
+                pdf.text('3. VEHICLE HEALTH STATUS', 15, 25);
+                pdf.line(15, 30, 195, 30);
+                
+                // Get status from DOM
+                const statusEl = document.getElementById('vehicleStatus');
+                const statusText = statusEl ? statusEl.innerText : 'Status unavailable';
+                
+                pdf.setFontSize(10);
+                pdf.setTextColor(200, 210, 220);
+                const statusLines = statusText.split('\n');
+                statusLines.forEach((line, i) => {
+                    if (line.trim() && i < 15) pdf.text(line.trim(), 15, 42 + i * 8);
+                });
+                
+                // ===== PAGE 5: PROBLEMS & RECOMMENDATIONS =====
+                pdf.addPage();
+                pdf.setFillColor(10, 14, 23);
+                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.setFontSize(20);
+                pdf.setTextColor(245, 158, 11);
+                pdf.text('4. PROBLEMS & RECOMMENDATIONS', 15, 25);
+                pdf.line(15, 30, 195, 30);
+                
+                const problemsEl = document.getElementById('problemsList');
+                const recsEl = document.getElementById('recommendations');
+                const problemsText = problemsEl ? problemsEl.innerText : 'No issues';
+                const recsText = recsEl ? recsEl.innerText : 'No recommendations';
+                
+                pdf.setFontSize(11);
+                pdf.setTextColor(245, 158, 11);
+                pdf.text('Problems Detected:', 15, 45);
+                pdf.setFontSize(9);
+                pdf.setTextColor(200, 210, 220);
+                const pLines = problemsText.split('\n');
+                pLines.forEach((line, i) => {
+                    if (line.trim() && i < 10) pdf.text(line.trim(), 15, 55 + i * 7);
+                });
+                
+                pdf.setFontSize(11);
+                pdf.setTextColor(16, 185, 129);
+                pdf.text('Recommendations:', 15, 130);
+                pdf.setFontSize(9);
+                pdf.setTextColor(200, 210, 220);
+                const rLines = recsText.split('\n');
+                rLines.forEach((line, i) => {
+                    if (line.trim() && i < 10) pdf.text(line.trim(), 15, 140 + i * 7);
+                });
+                
+                // ===== PAGE 6: RUNNING COSTS =====
+                pdf.addPage();
+                pdf.setFillColor(10, 14, 23);
+                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.setFontSize(20);
+                pdf.setTextColor(59, 130, 246);
+                pdf.text('5. RUNNING COST ANALYSIS', 15, 25);
+                pdf.line(15, 30, 195, 30);
+                pdf.setFontSize(10);
+                pdf.setTextColor(200, 210, 220);
+                const costs = [
+                    `Cost per Kilometer: ₹${d.ck?.toFixed(2) || 0}`,
+                    `Monthly Cost (1,000 km): ₹${(d.ck * 1000)?.toFixed(0) || 0}`,
+                    `Annual Cost (12,000 km): ₹${(d.ck * 12000)?.toFixed(0) || 0}`,
+                    `Annual Fuel Consumption: ${d.af?.toFixed(0) || 0} Liters`,
+                    `Fuel Type: ${car.fuelType} | Price: ₹${car.fuelType === 'Diesel' ? 90 : 105}/L`,
+                    `Current Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`
+                ];
+                costs.forEach((c, i) => pdf.text(`• ${c}`, 15, 42 + i * 12));
+                
+                // ===== PAGE 7: ENVIRONMENTAL IMPACT =====
+                pdf.addPage();
+                pdf.setFillColor(10, 14, 23);
+                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.setFontSize(20);
+                pdf.setTextColor(16, 185, 129);
+                pdf.text('6. ENVIRONMENTAL IMPACT', 15, 25);
+                pdf.line(15, 30, 195, 30);
+                pdf.setFontSize(10);
+                pdf.setTextColor(200, 210, 220);
+                const eco = [
+                    `CO₂ Emissions: ${d.co2?.toFixed(0) || 0} g/km`,
+                    `Daily CO₂ (50 km commute): ${d.dc?.toFixed(1) || 0} kg`,
+                    `Annual CO₂ Emissions: ${d.ac?.toFixed(2) || 0} tons`,
+                    `Trees Required to Offset: ${d.tn || 0} trees per year`,
+                    `Air Quality Impact Score: ${d.aq?.toFixed(0) || 0}/100`,
+                    `Carbon Footprint: ${d.ac?.toFixed(2) || 0} tons CO₂ equivalent`,
+                    `Annual Fuel Burned: ${d.af?.toFixed(0) || 0} Liters`
+                ];
+                eco.forEach((e, i) => pdf.text(`• ${e}`, 15, 42 + i * 12));
+                
+                pdf.setFontSize(10);
+                pdf.setTextColor(16, 185, 129);
+                pdf.text('Tips to Reduce Environmental Impact:', 15, 140);
+                pdf.setFontSize(8);
+                pdf.setTextColor(180, 190, 200);
+                pdf.text('• Reduce speed by 10 km/h to cut emissions by 12-15%', 15, 150);
+                pdf.text('• Avoid unnecessary idling', 15, 158);
+                pdf.text('• Carpool when possible', 15, 166);
+                pdf.text('• Regular maintenance ensures optimal combustion', 15, 174);
+                
+                // ===== PAGE 8: TIME PREDICTIONS =====
+                pdf.addPage();
+                pdf.setFillColor(10, 14, 23);
+                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.setFontSize(20);
+                pdf.setTextColor(245, 158, 11);
+                pdf.text('7. TIME-BASED PREDICTIONS', 15, 25);
+                pdf.line(15, 30, 195, 30);
+                
+                const timeEl = document.getElementById('timeEffects');
+                const timeText = timeEl ? timeEl.innerText : 'Predictions unavailable';
+                
+                pdf.setFontSize(9);
+                pdf.setTextColor(200, 210, 220);
+                const tLines = timeText.split('\n');
+                tLines.forEach((line, i) => {
+                    if (line.trim() && i < 15) pdf.text(line.trim(), 15, 42 + i * 7);
+                });
+                
+                // ===== PAGE 9: CHARTS =====
+                pdf.addPage();
+                pdf.setFillColor(10, 14, 23);
+                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.setFontSize(20);
+                pdf.setTextColor(16, 185, 129);
+                pdf.text('8. PERFORMANCE GRAPHS', 15, 25);
+                pdf.line(15, 30, 195, 30);
+                
+                status.textContent = 'Capturing charts...';
+                
+                try {
+                    const torqueCanvas = document.getElementById('torqueChart');
+                    if (torqueCanvas) {
+                        const torqueImg = await html2canvas(torqueCanvas, { 
+                            backgroundColor: '#111827',
+                            scale: 2
+                        });
+                        pdf.addImage(torqueImg, 'PNG', 10, 40, 190, 85);
+                        pdf.setFontSize(9);
+                        pdf.setTextColor(148, 163, 184);
+                        pdf.text('Torque & Power Curve - Green: Torque (Nm) | Blue: Power (HP)', 15, 135);
+                    }
+                    
+                    const fuelCanvas = document.getElementById('fuelChart');
+                    if (fuelCanvas) {
+                        const fuelImg = await html2canvas(fuelCanvas, { 
+                            backgroundColor: '#111827',
+                            scale: 2
+                        });
+                        pdf.addImage(fuelImg, 'PNG', 10, 150, 190, 75);
+                        pdf.setFontSize(9);
+                        pdf.setTextColor(148, 163, 184);
+                        pdf.text('Fuel Economy vs Speed Curve', 15, 235);
+                    }
+                } catch (e) {
+                    pdf.setFontSize(10);
+                    pdf.setTextColor(239, 68, 68);
+                    pdf.text('Charts could not be rendered in this PDF', 15, 50);
+                    console.error('Chart capture error:', e);
+                }
+                
+                // ===== PAGE 10: SUMMARY =====
+                pdf.addPage();
+                pdf.setFillColor(10, 14, 23);
+                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.setFontSize(24);
+                pdf.setTextColor(59, 130, 246);
+                pdf.text('REPORT SUMMARY', 105, 50, { align: 'center' });
+                
+                pdf.setFontSize(14);
+                pdf.setTextColor(255, 255, 255);
+                pdf.text(car.name, 105, 75, { align: 'center' });
+                pdf.text(car.engine, 105, 85, { align: 'center' });
+                
+                pdf.setFontSize(11);
+                pdf.setTextColor(200, 210, 220);
+                const summary = [
+                    `Current Speed: ${d.sp?.toFixed(1) || 0} km/h`,
+                    `Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`,
+                    `Efficiency Score: ${d.eff?.toFixed(0) || 0}/100`,
+                    `Annual Running Cost: ₹${(d.ck * 12000)?.toFixed(0) || 0}`,
+                    `Annual CO₂: ${d.ac?.toFixed(2) || 0} tons`,
+                    `Trees to Offset: ${d.tn || 0}`,
+                    '',
+                    'Key Recommendation:',
+                    car.tips.efficiency
+                ];
+                summary.forEach((s, i) => pdf.text(s, 105, 105 + i * 12, { align: 'center' }));
+                
+                pdf.setFontSize(8);
+                pdf.setTextColor(148, 163, 184);
+                pdf.text('Generated by IC Engine AI - Professional Vehicle Physics Simulator', 105, 270, { align: 'center' });
+                pdf.text(`© ${new Date().getFullYear()} | Real Physics Engine | BSFC Calculations | Environmental Analysis`, 105, 278, { align: 'center' });
+                
+                // Save PDF
+                const fileName = `${car.name.replace(/\s+/g, '_')}_Report_${new Date().toISOString().split('T')[0]}.pdf`;
+                pdf.save(fileName);
+                
+                status.textContent = '✅ Report downloaded successfully!';
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                }, 2500);
+                
+            } catch (error) {
+                console.error('PDF Generation Error:', error);
+                status.textContent = '❌ Error generating PDF. Please try again.';
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                }, 3000);
+            }
+        }
+
+        // Event Listeners
+        document.querySelectorAll('.car-btn:not(.custom)').forEach(btn => {
+            btn.addEventListener('click', function() {
+                selectCar(this.getAttribute('data-car'), this);
+            });
+        });
+
+        document.getElementById('thr').addEventListener('input', updateSim);
+        document.getElementById('pas').addEventListener('input', updateSim);
+        ['terrain', 'ambientTemp', 'windCondition'].forEach(id => {
+            document.getElementById(id).addEventListener('change', updateSim);
+        });
+
+        // Initialize
+        window.onload = function() {
+            initCharts();
+            updateCharts(cars[currentCar]);
+            updateSim();
+        };
+    </script>
+</body>
+</html>
