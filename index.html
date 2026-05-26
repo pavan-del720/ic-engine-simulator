@@ -6,12 +6,9 @@
     <title>IC Engine AI - Professional Vehicle Physics Simulator</title>
     <meta name="description" content="Advanced IC engine simulator with real physics, vehicle diagnostics, environmental impact analysis, and PDF reports">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         :root {
@@ -39,9 +36,6 @@
             color: var(--text-primary);
             font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
-            background-image: 
-                radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
         }
 
         .header {
@@ -99,7 +93,6 @@
             border-radius: 20px;
             font-size: 0.65rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
             background: rgba(16, 185, 129, 0.12);
             color: #34d399;
             border: 1px solid rgba(16, 185, 129, 0.25);
@@ -117,8 +110,8 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.3); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         .container {
@@ -188,7 +181,6 @@
             border-color: var(--accent);
             color: var(--text-primary);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
         }
 
         .car-btn.active {
@@ -248,7 +240,6 @@
             border-radius: 50%;
             cursor: pointer;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
-            transition: all 0.2s;
         }
 
         select {
@@ -283,11 +274,6 @@
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
-        }
-
-        .btn-download:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
         }
 
         .btn-test {
@@ -414,10 +400,7 @@
         .mini-value {
             font-size: 1.2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #60a5fa, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #60a5fa;
         }
 
         .mini-label {
@@ -682,133 +665,47 @@
 
         <main class="main-content">
             <div class="metrics-row">
-                <div class="metric-card">
-                    <div class="metric-icon">📏</div>
-                    <div class="metric-label">Speed</div>
-                    <div class="metric-value" id="speed">0</div>
-                    <div class="metric-unit">km/h</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon">⚡</div>
-                    <div class="metric-label">RPM</div>
-                    <div class="metric-value" id="rpm">0</div>
-                    <div class="metric-unit">rev/min</div>
-                    <div class="progress-bar"><div class="progress-fill" id="rpmBar" style="width:0%;background:#10b981;"></div></div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon">⛽</div>
-                    <div class="metric-label">Fuel Economy</div>
-                    <div class="metric-value" id="fuel">0</div>
-                    <div class="metric-unit">km/L</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-icon">🌡️</div>
-                    <div class="metric-label">Engine Temp</div>
-                    <div class="metric-value" id="temp">0</div>
-                    <div class="metric-unit">°C</div>
-                </div>
+                <div class="metric-card"><div class="metric-icon">📏</div><div class="metric-label">Speed</div><div class="metric-value" id="speed">0</div><div class="metric-unit">km/h</div></div>
+                <div class="metric-card"><div class="metric-icon">⚡</div><div class="metric-label">RPM</div><div class="metric-value" id="rpm">0</div><div class="metric-unit">rev/min</div><div class="progress-bar"><div class="progress-fill" id="rpmBar" style="width:0%;background:#10b981;"></div></div></div>
+                <div class="metric-card"><div class="metric-icon">⛽</div><div class="metric-label">Fuel Economy</div><div class="metric-value" id="fuel">0</div><div class="metric-unit">km/L</div></div>
+                <div class="metric-card"><div class="metric-icon">🌡️</div><div class="metric-label">Engine Temp</div><div class="metric-value" id="temp">0</div><div class="metric-unit">°C</div></div>
             </div>
 
             <div class="metrics-row">
-                <div class="metric-card">
-                    <div class="metric-label">Gear Position</div>
-                    <div style="font-size:2rem;font-weight:900;" id="gearTxt">1</div>
-                    <div class="gear-dots">
-                        <div class="gear-dot active" data-g="1">1</div><div class="gear-dot" data-g="2">2</div>
-                        <div class="gear-dot" data-g="3">3</div><div class="gear-dot" data-g="4">4</div>
-                        <div class="gear-dot" data-g="5">5</div><div class="gear-dot" data-g="6">6</div>
-                    </div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">CO₂ Emissions</div>
-                    <div class="metric-value" id="co2">0</div>
-                    <div class="metric-unit">g/km</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Engine Load</div>
-                    <div class="metric-value" id="engineLoad">40%</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">Efficiency Score</div>
-                    <div class="metric-value" id="effScore" style="color:#10b981;">85</div>
-                    <div class="metric-unit">/100</div>
-                    <div class="progress-bar"><div class="progress-fill" id="effBar" style="width:85%;background:#10b981;"></div></div>
-                </div>
+                <div class="metric-card"><div class="metric-label">Gear Position</div><div style="font-size:2rem;font-weight:900;" id="gearTxt">1</div><div class="gear-dots"><div class="gear-dot active" data-g="1">1</div><div class="gear-dot" data-g="2">2</div><div class="gear-dot" data-g="3">3</div><div class="gear-dot" data-g="4">4</div><div class="gear-dot" data-g="5">5</div><div class="gear-dot" data-g="6">6</div></div></div>
+                <div class="metric-card"><div class="metric-label">CO₂ Emissions</div><div class="metric-value" id="co2">0</div><div class="metric-unit">g/km</div></div>
+                <div class="metric-card"><div class="metric-label">Engine Load</div><div class="metric-value" id="engineLoad">40%</div></div>
+                <div class="metric-card"><div class="metric-label">Efficiency Score</div><div class="metric-value" id="effScore" style="color:#10b981;">85</div><div class="metric-unit">/100</div><div class="progress-bar"><div class="progress-fill" id="effBar" style="width:85%;background:#10b981;"></div></div></div>
             </div>
 
             <div class="two-col">
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">📈 Torque & Power Curve</span>
-                        <span class="badge badge-green">LIVE</span>
-                    </div>
-                    <div class="chart-container tall"><canvas id="torqueChart"></canvas></div>
-                    <div id="torqueExp" style="font-size:0.65rem;color:var(--text-muted);margin-top:6px;"></div>
-                </div>
-                <div class="card">
-                    <div class="card-header"><span class="card-title">💰 Running Cost</span></div>
-                    <div class="three-col" style="margin-bottom:10px;">
-                        <div class="mini-stat"><div class="mini-value" id="costPerKm">₹0</div><div class="mini-label">Per km</div></div>
-                        <div class="mini-stat"><div class="mini-value" id="costPerMonth">₹0</div><div class="mini-label">Monthly</div></div>
-                        <div class="mini-stat"><div class="mini-value" id="costPerYear">₹0</div><div class="mini-label">Yearly</div></div>
-                    </div>
-                    <div class="chart-container"><canvas id="fuelChart"></canvas></div>
-                    <div id="fuelExp" style="font-size:0.65rem;color:var(--text-muted);margin-top:6px;"></div>
-                </div>
+                <div class="card"><div class="card-header"><span class="card-title">📈 Torque & Power Curve</span><span class="badge badge-green">LIVE</span></div><div class="chart-container tall"><canvas id="torqueChart"></canvas></div><div id="torqueExp" style="font-size:0.65rem;color:var(--text-muted);margin-top:6px;"></div></div>
+                <div class="card"><div class="card-header"><span class="card-title">💰 Running Cost</span></div><div class="three-col" style="margin-bottom:10px;"><div class="mini-stat"><div class="mini-value" id="costPerKm">₹0</div><div class="mini-label">Per km</div></div><div class="mini-stat"><div class="mini-value" id="costPerMonth">₹0</div><div class="mini-label">Monthly</div></div><div class="mini-stat"><div class="mini-value" id="costPerYear">₹0</div><div class="mini-label">Yearly</div></div></div><div class="chart-container"><canvas id="fuelChart"></canvas></div><div id="fuelExp" style="font-size:0.65rem;color:var(--text-muted);margin-top:6px;"></div></div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title">🌍 Environmental Impact</span>
-                    <span class="badge badge-green">ECO ANALYSIS</span>
-                </div>
-                <div class="three-col">
-                    <div class="mini-stat"><div class="mini-value" id="co2PerKmEco">0</div><div class="mini-label">CO₂ g/km</div></div>
-                    <div class="mini-stat"><div class="mini-value" id="dailyCO2">0</div><div class="mini-label">Daily CO₂ kg</div></div>
-                    <div class="mini-stat"><div class="mini-value" id="treesNeeded">0</div><div class="mini-label">Trees/year</div></div>
-                    <div class="mini-stat"><div class="mini-value" id="airQualityIndex">0</div><div class="mini-label">Air Quality</div></div>
-                    <div class="mini-stat"><div class="mini-value" id="fuelConsumed">0</div><div class="mini-label">Fuel L/year</div></div>
-                    <div class="mini-stat"><div class="mini-value" id="carbonFootprint">0</div><div class="mini-label">Carbon tCO₂e</div></div>
-                </div>
-            </div>
+            <div class="card"><div class="card-header"><span class="card-title">🌍 Environmental Impact</span><span class="badge badge-green">ECO ANALYSIS</span></div><div class="three-col"><div class="mini-stat"><div class="mini-value" id="co2PerKmEco">0</div><div class="mini-label">CO₂ g/km</div></div><div class="mini-stat"><div class="mini-value" id="dailyCO2">0</div><div class="mini-label">Daily CO₂ kg</div></div><div class="mini-stat"><div class="mini-value" id="treesNeeded">0</div><div class="mini-label">Trees/year</div></div><div class="mini-stat"><div class="mini-value" id="airQualityIndex">0</div><div class="mini-label">Air Quality</div></div><div class="mini-stat"><div class="mini-value" id="fuelConsumed">0</div><div class="mini-label">Fuel L/year</div></div><div class="mini-stat"><div class="mini-value" id="carbonFootprint">0</div><div class="mini-label">Carbon tCO₂e</div></div></div></div>
 
             <div class="two-col">
-                <div class="card">
-                    <div class="card-header"><span class="card-title">🔍 Vehicle Health</span></div>
-                    <div class="status-list" id="vehicleStatus"></div>
-                </div>
-                <div class="card">
-                    <div class="card-header"><span class="card-title">⚠️ Problems</span></div>
-                    <div id="problemsList"></div>
-                </div>
+                <div class="card"><div class="card-header"><span class="card-title">🔍 Vehicle Health</span></div><div class="status-list" id="vehicleStatus"></div></div>
+                <div class="card"><div class="card-header"><span class="card-title">⚠️ Problems</span></div><div id="problemsList"></div></div>
             </div>
 
-            <div class="card">
-                <div class="card-header"><span class="card-title">💡 Recommendations</span></div>
-                <div id="recommendations"></div>
-            </div>
-
-            <div class="card">
-                <div class="card-header"><span class="card-title">⏰ Time Predictions</span></div>
-                <div class="three-col" id="timeEffects"></div>
-            </div>
+            <div class="card"><div class="card-header"><span class="card-title">💡 Recommendations</span></div><div id="recommendations"></div></div>
+            <div class="card"><div class="card-header"><span class="card-title">⏰ Time Predictions</span></div><div class="three-col" id="timeEffects"></div></div>
         </main>
     </div>
 
-    <footer class="footer">
-        <p>© 2024 IC Engine AI Simulator | Real Physics Engine | BSFC Calculations | Environmental Analysis</p>
-    </footer>
+    <footer class="footer"><p>© 2024 IC Engine AI Simulator | Real Physics Engine | BSFC Calculations | Environmental Analysis</p></footer>
 
     <div class="modal-overlay" id="pdfModal">
         <div class="modal-box">
-            <h3 style="color:var(--accent);margin-bottom:12px;">📄 Generating PDF Report</h3>
+            <h3 style="color:var(--accent);margin-bottom:12px;">📄 Generating PDF Report...</h3>
             <div class="spinner"></div>
-            <p style="color:var(--text-muted);font-size:0.8rem;" id="pdfStatus">Compiling vehicle analysis...</p>
+            <p style="color:var(--text-muted);font-size:0.8rem;" id="pdfStatus">Compiling vehicle analysis report...</p>
         </div>
     </div>
 
     <script>
-        // Vehicle Database
         const baseCars = {
             fortuner:{name:"Toyota Fortuner",mass:2310,power:150,powerKW:112,drag:0.36,frontalArea:2.75,wheelRadius:0.39,finalDrive:3.58,redline:3400,maxSpeed:185,gears:[4.31,2.33,1.44,1.00,0.79,0.67],engine:"2.8L Turbo Diesel",type:"SUV",fuelType:"Diesel",torqueCurve:{800:180,1200:320,1600:420,2000:450,2400:440,2800:400,3200:350,3400:320},bsfc:210,coolingCapacity:0.85,drivetrainLoss:0.18,rollingResistance:0.015,optimalRPM:2000,maxBoost:2.2,peakTorqueRPM:2000,problems:{overheating:"EGR cooler clogging - common Fortuner issue",highLoad:"Turbocharger strain - VGT vanes may stick",transmission:"Torque converter overheating in traffic"},tips:{efficiency:"Best at 1600-2400 RPM. Use 5th gear at 90 km/h."}},
             bmw:{name:"BMW X5",mass:2145,power:250,powerKW:186,drag:0.31,frontalArea:2.6,wheelRadius:0.37,finalDrive:3.15,redline:6500,maxSpeed:245,gears:[4.71,3.14,2.11,1.67,1.28,1.00],engine:"3.0L Twin-Turbo Petrol",type:"Luxury SUV",fuelType:"Petrol",torqueCurve:{1000:250,2000:380,3000:450,4000:480,5000:460,6000:400,6500:350},bsfc:245,coolingCapacity:0.95,drivetrainLoss:0.15,rollingResistance:0.012,optimalRPM:3500,maxBoost:1.8,peakTorqueRPM:4000,problems:{overheating:"Electric water pump failure risk",highLoad:"VANOS stress - timing chain wear",transmission:"ZF 8HP harsh shifts at high temp"},tips:{efficiency:"Best at 2500-3500 RPM. 6th gear at 110 km/h."}},
@@ -865,19 +762,19 @@
         }
 
         function addCustomCar() {
-            const name=document.getElementById('customName').value||'Custom',mass=parseFloat(document.getElementById('customMass').value)||1500,power=parseFloat(document.getElementById('customPower').value)||120,drag=parseFloat(document.getElementById('customDrag').value)||0.32,area=parseFloat(document.getElementById('customArea').value)||2.2,redline=parseInt(document.getElementById('customRedline').value)||6000,maxSpeed=parseInt(document.getElementById('customMaxSpeed').value)||180,fuelType=document.getElementById('customFuelType').value||'Petrol';
-            const id='c_'+Date.now(),pkRPM=Math.round(redline*0.55),tc={};
-            for(let i=0;i<=8;i++){const rpm=Math.round(800+(redline-800)*(i/8));let f=rpm<=pkRPM?0.5+0.5*(rpm/pkRPM):1-0.4*((rpm-pkRPM)/(redline-pkRPM));tc[rpm]=Math.round((power*5252)/redline*f);}
-            customCars[id]={name,mass,power,powerKW:power*0.7457,drag,frontalArea:area,wheelRadius:0.37,finalDrive:3.5,redline,maxSpeed,gears:[3.80,2.10,1.40,1.00,0.82,0.70],engine:`${(power/70).toFixed(1)}L ${fuelType}`,type:"Custom",fuelType,torqueCurve:tc,bsfc:fuelType==="Diesel"?215:245,coolingCapacity:0.82,drivetrainLoss:0.17,rollingResistance:0.014,optimalRPM:pkRPM,maxBoost:1.5,peakTorqueRPM:pkRPM,problems:{overheating:"Monitor temperature",highLoad:"Avoid sustained high load",transmission:"Check fluid regularly"},tips:{efficiency:`Best near ${pkRPM} RPM. Drive smoothly.`}};
+            const name=document.getElementById('customName').value||'Custom',mass=parseFloat(document.getElementById('customMass').value)||1500,power=parseFloat(document.getElementById('customPower').value)||120;
+            const id='c_'+Date.now(),pkRPM=Math.round(6000*0.55),tc={};
+            for(let i=0;i<=8;i++){const rpm=Math.round(800+(6000-800)*(i/8));let f=rpm<=pkRPM?0.5+0.5*(rpm/pkRPM):1-0.4*((rpm-pkRPM)/(6000-pkRPM));tc[rpm]=Math.round((power*5252)/6000*f);}
+            customCars[id]={name,mass,power,powerKW:power*0.7457,drag:0.32,frontalArea:2.2,wheelRadius:0.37,finalDrive:3.5,redline:6000,maxSpeed:180,gears:[3.80,2.10,1.40,1.00,0.82,0.70],engine:`${(power/70).toFixed(1)}L`,type:"Custom",fuelType:"Petrol",torqueCurve:tc,bsfc:240,coolingCapacity:0.82,drivetrainLoss:0.17,rollingResistance:0.014,optimalRPM:pkRPM,maxBoost:1.5,peakTorqueRPM:pkRPM,problems:{overheating:"Monitor temperature",highLoad:"Avoid sustained high load",transmission:"Check fluid regularly"},tips:{efficiency:`Best near ${pkRPM} RPM. Drive smoothly.`}};
             cars={...baseCars,...customCars};currentCar=id;
             const g=document.getElementById('carGrid'),b=document.createElement('button');b.className='car-btn active';b.setAttribute('data-car',id);b.textContent=name.length>12?name.substring(0,12)+'...':name;b.onclick=function(){selectCar(id,this);};g.insertBefore(b,g.lastElementChild);
             document.querySelectorAll('.car-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');
-            document.getElementById('customForm').style.display='none';updateCharts(cars[id]);updateSim();alert(`✅ ${name} added successfully!`);
+            document.getElementById('customForm').style.display='none';updateCharts(cars[id]);updateSim();alert(`✅ ${name} added!`);
         }
 
         function selectCar(id,el){
             currentCar=id;document.querySelectorAll('.car-btn').forEach(x=>x.classList.remove('active'));
-            if(el)el.classList.add('active');else document.querySelector(`[data-car="${id}"]`)?.classList.add('active');
+            if(el)el.classList.add('active');
             document.getElementById('customForm').style.display='none';updateCharts(cars[id]);updateSim();
         }
 
@@ -898,7 +795,6 @@
             const dc=(co2*50)/1000,ac=(co2*12000)/1000000,tn=Math.ceil(ac*6.5),af=sp>0.1?(12000/sp)*fl:0,aq=Math.min(100,(co2/5)+(car.fuelType==="Diesel"?20:10));
             simData={car,thr,pas,ter,amb,wnd,sp,rpm,gear,at,bst,fe,et,co2,ldd,ck,eff,tm,fl,dc,ac,tn,af,aq,tr};
             
-            // Update UI
             document.getElementById('speed').textContent=sp.toFixed(1);document.getElementById('rpm').textContent=rpm.toFixed(0);
             document.getElementById('gearTxt').textContent=gear;document.getElementById('fuel').textContent=fe.toFixed(1);
             document.getElementById('temp').textContent=et.toFixed(0);document.getElementById('co2').textContent=co2.toFixed(0);
@@ -915,14 +811,12 @@
             document.getElementById('fuelConsumed').textContent=af.toFixed(0)+' L';
             document.getElementById('carbonFootprint').textContent=ac.toFixed(2);
             
-            const rp=(rpm/car.redline)*100,rb=document.getElementById('rpmBar');
-            rb.style.width=rp+'%';rb.style.background=rp>90?'#ef4444':rp>70?'#f59e0b':'#10b981';
+            const rp=(rpm/car.redline)*100,rb=document.getElementById('rpmBar');rb.style.width=rp+'%';rb.style.background=rp>90?'#ef4444':rp>70?'#f59e0b':'#10b981';
             const eb=document.getElementById('effBar');eb.style.width=eff+'%';eb.style.background=eff>70?'#10b981':eff>50?'#f59e0b':'#ef4444';
             document.querySelectorAll('.gear-dot').forEach(d=>d.classList.remove('active'));
             const ad=document.querySelector(`[data-g="${gear}"]`);if(ad)ad.classList.add('active');
             
-            updateStatus(car,et,ldd);updateProblems(car,thr,et,ldd,fe,ter);
-            updateRecs(car,thr,et,ldd,rpm);updateTime(car,thr,et,ldd);
+            updateStatus(car,et,ldd);updateProblems(car,thr,et,ldd,fe,ter);updateRecs(car,thr,et,ldd,rpm);updateTime(car,thr,et,ldd);
         }
 
         function updateStatus(car,temp,load){
@@ -932,51 +826,50 @@
             else if(temp>95){es='Hot';ec='#f59e0b';ed='dot-orange';os='Thinning';oc='#f59e0b';od='dot-orange';}
             if(load>85){ts='Stressed';tc='#ef4444';td='dot-red';}else if(load>65){ts='Warm';tc='#f59e0b';td='dot-orange';}
             document.getElementById('vehicleStatus').innerHTML=`
-                <div class="status-item"><span><span class="status-dot ${ed}"></span>Engine</span><span style="color:${ec};font-weight:600;">${es}</span></div>
-                <div class="status-item"><span><span class="status-dot ${od}"></span>Oil</span><span style="color:${oc};">${os}</span></div>
+                <div class="status-item"><span><span class="status-dot ${ed}"></span>Engine Health</span><span style="color:${ec};font-weight:600;">${es}</span></div>
+                <div class="status-item"><span><span class="status-dot ${od}"></span>Oil Condition</span><span style="color:${oc};">${os}</span></div>
                 <div class="status-item"><span><span class="status-dot ${td}"></span>Transmission</span><span style="color:${tc};">${ts}</span></div>
-                <div class="status-item"><span>⚖️ Weight</span><span>${(simData.tm||cars[currentCar].mass).toFixed(0)} kg</span></div>
-                <div class="status-item"><span>🔧 Torque</span><span>${(simData.at||0).toFixed(0)} Nm</span></div>
-                <div class="status-item"><span>💨 Boost</span><span>${simData.bst||0} bar</span></div>
-                <div class="status-item"><span>⚡ 0-100</span><span id="accelTime">-- sec</span></div>`;
+                <div class="status-item"><span>Total Weight</span><span>${(simData.tm||cars[currentCar].mass).toFixed(0)} kg</span></div>
+                <div class="status-item"><span>Torque Output</span><span>${(simData.at||0).toFixed(0)} Nm</span></div>
+                <div class="status-item"><span>Boost Pressure</span><span>${simData.bst||0} bar</span></div>
+                <div class="status-item"><span>0-100 km/h</span><span id="accelTime">-- sec</span></div>`;
         }
 
         function updateProblems(car,thr,temp,load,fuel,ter){
             let h='';const ct=car.fuelType==="Diesel"?108:105;
-            if(temp>ct)h+=`<div class="alert alert-danger"><b>🚨 CRITICAL: Engine Overheating!</b><br>${car.problems.overheating}. Temp: ${temp.toFixed(0)}°C. Stop immediately!</div>`;
-            else if(temp>95)h+=`<div class="alert alert-warning"><b>⚠️ Temperature Rising</b><br>${car.problems.overheating}</div>`;
-            if(load>88)h+=`<div class="alert alert-danger"><b>⚡ Engine Overload</b><br>${car.problems.highLoad}. Load: ${load.toFixed(0)}%</div>`;
-            else if(load>70)h+=`<div class="alert alert-warning"><b>📊 High Load</b><br>${car.problems.highLoad}</div>`;
-            if(fuel<(car.fuelType==="Diesel"?6:4))h+=`<div class="alert alert-warning"><b>⛽ Poor Fuel Economy</b><br>Only ${fuel.toFixed(1)} km/L</div>`;
-            document.getElementById('problemsList').innerHTML=h||`<div class="alert alert-success">✅ All systems normal - ${car.name} operating within design parameters</div>`;
+            if(temp>ct)h+=`<div class="alert alert-danger"><b>CRITICAL: Engine Overheating!</b><br>${car.problems.overheating}. Stop immediately!</div>`;
+            else if(temp>95)h+=`<div class="alert alert-warning"><b>Temperature Rising</b><br>${car.problems.overheating}</div>`;
+            if(load>88)h+=`<div class="alert alert-danger"><b>Engine Overload</b><br>${car.problems.highLoad}</div>`;
+            if(fuel<(car.fuelType==="Diesel"?6:4))h+=`<div class="alert alert-warning"><b>Poor Fuel Economy</b><br>Only ${fuel.toFixed(1)} km/L</div>`;
+            document.getElementById('problemsList').innerHTML=h||`<div class="alert alert-success">All systems normal - ${car.name} operating within design parameters</div>`;
         }
 
         function updateRecs(car,thr,temp,load,rpm){
             let h='';
-            if(rpm<car.optimalRPM*0.7&&load>60)h+=`<div class="rec-card"><div class="rec-icon">⬇️</div><div class="rec-text"><h4>Downshift Recommended</h4><p>Engine lugging at ${rpm.toFixed(0)} RPM. Optimal: ${car.optimalRPM} RPM for best efficiency.</p></div></div>`;
-            else if(rpm>car.optimalRPM*1.3)h+=`<div class="rec-card"><div class="rec-icon">⬆️</div><div class="rec-text"><h4>Upshift to Save Fuel</h4><p>Running at ${rpm.toFixed(0)} RPM (${((rpm/car.redline)*100).toFixed(0)}% of redline). Shift up for better economy.</p></div></div>`;
-            if(temp>95)h+=`<div class="rec-card"><div class="rec-icon">🌡️</div><div class="rec-text"><h4>Cool Down Engine</h4><p>Turn off AC, reduce speed 20%, or take a cooling break.</p></div></div>`;
+            if(rpm<car.optimalRPM*0.7&&load>60)h+=`<div class="rec-card"><div class="rec-icon">⬇️</div><div class="rec-text"><h4>Downshift Recommended</h4><p>Optimal: ${car.optimalRPM} RPM for best efficiency.</p></div></div>`;
+            else if(rpm>car.optimalRPM*1.3)h+=`<div class="rec-card"><div class="rec-icon">⬆️</div><div class="rec-text"><h4>Upshift to Save Fuel</h4><p>Running at ${((rpm/car.redline)*100).toFixed(0)}% of redline.</p></div></div>`;
+            if(temp>95)h+=`<div class="rec-card"><div class="rec-icon">🌡️</div><div class="rec-text"><h4>Cool Down Engine</h4><p>Reduce speed 20% or take a break.</p></div></div>`;
             h+=`<div class="rec-card"><div class="rec-icon">✅</div><div class="rec-text"><h4>Optimal Driving</h4><p>${car.tips.efficiency}</p></div></div>`;
             document.getElementById('recommendations').innerHTML=h;
         }
 
         function updateTime(car,thr,temp,load){
-            let s='Normal operation expected',m='Suitable for extended driving',l='Sustainable long-term operation',sc='alert-info',mc='alert-info',lc='alert-info';
-            if(temp>105){s='CRITICAL: Engine damage within 30 min. Stop!';sc='alert-danger';}
-            else if(temp>95||load>80){s='WARNING: Performance may degrade';sc='alert-warning';}
-            if(load>75||temp>95){m='Oil degrading, wear accelerating';mc='alert-warning';}
-            if(load>85||temp>105){l='CRITICAL RISK: Possible failure';lc='alert-danger';}
-            else if(load>65||temp>90){l='Accelerated wear, service soon';lc='alert-warning';}
+            let s='Normal operation expected',m='Suitable for extended driving',l='Sustainable long-term',sc='alert-info',mc='alert-info',lc='alert-info';
+            if(temp>105){s='CRITICAL: Stop within 30 min';sc='alert-danger';}
+            else if(temp>95){s='WARNING: Monitor closely';sc='alert-warning';}
+            if(load>75){m='Oil degrading, wear accelerating';mc='alert-warning';}
+            if(load>85){l='HIGH RISK: Possible failure';lc='alert-danger';}
+            else if(load>65){l='Accelerated wear';lc='alert-warning';}
             document.getElementById('timeEffects').innerHTML=`
-                <div class="alert ${sc}"><b>🕐 0-2 hrs</b><br>${s}</div>
-                <div class="alert ${mc}"><b>🕑 2-4 hrs</b><br>${m}</div>
-                <div class="alert ${lc}"><b>🕒 4+ hrs</b><br>${l}</div>`;
+                <div class="alert ${sc}"><b>0-2 hours</b><br>${s}</div>
+                <div class="alert ${mc}"><b>2-4 hours</b><br>${m}</div>
+                <div class="alert ${lc}"><b>4+ hours</b><br>${l}</div>`;
         }
 
         function runAccelTest(){
             const car=cars[currentCar],p=parseInt(document.getElementById('pas').value),tm=car.mass+(p*75),ptw=(car.powerKW*1000)/tm,t=100/(ptw*0.15);
             document.getElementById('accelTime').textContent=t.toFixed(1)+' sec';
-            alert(`${car.name}\n\n0-100 km/h: ~${t.toFixed(1)} seconds\nPower-to-Weight: ${ptw.toFixed(1)} W/kg\n\nNote: Real-world times vary based on traction and conditions.`);
+            alert(`${car.name}\n\n0-100 km/h: ~${t.toFixed(1)} seconds\nPower-to-Weight: ${ptw.toFixed(1)} W/kg`);
         }
 
         async function generatePDF() {
@@ -985,298 +878,370 @@
             modal.classList.add('active');
             status.textContent = 'Preparing report data...';
             
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
             try {
                 const car = cars[currentCar];
                 const d = simData;
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
+                const pageWidth = 210;
+                const pageHeight = 297;
+                const margin = 15;
+                let yPos = margin;
+                
+                // ===== HELPER FUNCTIONS =====
+                function addPage() {
+                    pdf.addPage();
+                    pdf.setFillColor(255, 255, 255);
+                    pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+                    yPos = margin;
+                }
+                
+                function addTitle(text, color = [59, 130, 246]) {
+                    pdf.setFontSize(18);
+                    pdf.setTextColor(...color);
+                    pdf.text(text, margin, yPos);
+                    pdf.setDrawColor(...color);
+                    pdf.line(margin, yPos + 3, pageWidth - margin, yPos + 3);
+                    yPos += 12;
+                    pdf.setFontSize(10);
+                    pdf.setTextColor(60, 60, 60);
+                }
+                
+                function addText(text, size = 10, indent = 0) {
+                    pdf.setFontSize(size);
+                    pdf.text(text, margin + indent, yPos);
+                    yPos += size * 0.6;
+                }
+                
+                function addBoldText(text, size = 10) {
+                    pdf.setFont(undefined, 'bold');
+                    pdf.setFontSize(size);
+                    pdf.text(text, margin, yPos);
+                    pdf.setFont(undefined, 'normal');
+                    yPos += size * 0.6;
+                }
+                
+                function addLine() {
+                    pdf.setDrawColor(200, 200, 200);
+                    pdf.line(margin, yPos, pageWidth - margin, yPos);
+                    yPos += 5;
+                }
+                
+                function checkPageBreak(needed = 20) {
+                    if (yPos + needed > pageHeight - margin) {
+                        addPage();
+                    }
+                }
                 
                 // ===== PAGE 1: COVER =====
                 pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, 210, 297, 'F');
-                pdf.setFontSize(32);
-                pdf.setTextColor(59, 130, 246);
-                pdf.text('IC ENGINE AI', 105, 60, { align: 'center' });
-                pdf.setFontSize(20);
-                pdf.setTextColor(255, 255, 255);
-                pdf.text('Comprehensive Vehicle', 105, 80, { align: 'center' });
-                pdf.text('Performance Analysis Report', 105, 92, { align: 'center' });
-                pdf.setFontSize(16);
-                pdf.setTextColor(16, 185, 129);
-                pdf.text(car.name, 105, 120, { align: 'center' });
-                pdf.setFontSize(11);
-                pdf.setTextColor(200, 210, 220);
-                pdf.text(`${car.engine} | ${car.power} HP | ${car.fuelType}`, 105, 135, { align: 'center' });
-                pdf.setFontSize(9);
-                pdf.setTextColor(148, 163, 184);
-                pdf.text(`Report Generated: ${new Date().toLocaleString()}`, 105, 160, { align: 'center' });
-                pdf.text('Professional Vehicle Physics Simulator | Real Physics Engine', 105, 170, { align: 'center' });
+                pdf.rect(0, 0, pageWidth, pageHeight, 'F');
                 
-                // ===== PAGE 2: VEHICLE SPECIFICATIONS =====
-                pdf.addPage();
-                pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, 210, 297, 'F');
-                pdf.setFontSize(20);
+                pdf.setFontSize(28);
                 pdf.setTextColor(59, 130, 246);
-                pdf.text('1. VEHICLE SPECIFICATIONS', 15, 25);
-                pdf.setDrawColor(59, 130, 246);
-                pdf.line(15, 30, 195, 30);
-                pdf.setFontSize(10);
+                pdf.text('IC ENGINE AI', pageWidth/2, 60, { align: 'center' });
+                
+                pdf.setFontSize(16);
+                pdf.setTextColor(255, 255, 255);
+                pdf.text('Vehicle Performance', pageWidth/2, 85, { align: 'center' });
+                pdf.text('Analysis Report', pageWidth/2, 97, { align: 'center' });
+                
+                pdf.setFontSize(13);
+                pdf.setTextColor(16, 185, 129);
+                pdf.text(car.name, pageWidth/2, 130, { align: 'center' });
+                
+                pdf.setFontSize(9);
                 pdf.setTextColor(200, 210, 220);
-                const specs = [
-                    `Vehicle: ${car.name}`,
-                    `Engine: ${car.engine}`,
-                    `Power: ${car.power} HP (${car.powerKW} kW)`,
-                    `Peak Torque: ${Math.max(...Object.values(car.torqueCurve))} Nm @ ${car.peakTorqueRPM} RPM`,
-                    `Type: ${car.type} | Fuel: ${car.fuelType}`,
-                    `Curb Weight: ${car.mass} kg`,
-                    `Redline: ${car.redline} RPM | Top Speed: ${car.maxSpeed} km/h`,
-                    `Drag Coefficient: ${car.drag} | Frontal Area: ${car.frontalArea} m²`,
-                    `BSFC: ${car.bsfc} g/kWh | Drivetrain Loss: ${(car.drivetrainLoss*100).toFixed(0)}%`,
-                    `Rolling Resistance: ${car.rollingResistance} | Cooling Factor: ${car.coolingCapacity}`,
-                    `Optimal RPM: ${car.optimalRPM} | Max Boost: ${car.maxBoost} bar`
-                ];
-                specs.forEach((s, i) => pdf.text(`• ${s}`, 15, 42 + i * 10));
+                pdf.text(`${car.engine} | ${car.power} HP | ${car.fuelType}`, pageWidth/2, 145, { align: 'center' });
+                pdf.text(`Generated: ${new Date().toLocaleString()}`, pageWidth/2, 170, { align: 'center' });
+                pdf.text('Real Physics Engine | BSFC Calculations | Environmental Analysis', pageWidth/2, 185, { align: 'center' });
+                
+                // ===== PAGE 2: SPECIFICATIONS =====
+                addPage();
+                addTitle('1. VEHICLE SPECIFICATIONS');
+                
+                checkPageBreak(80);
+                addBoldText('Basic Information:', 11);
+                addText(`Vehicle Name: ${car.name}`);
+                addText(`Engine: ${car.engine}`);
+                addText(`Power Output: ${car.power} HP (${car.powerKW} kW)`);
+                addText(`Peak Torque: ${Math.max(...Object.values(car.torqueCurve))} Nm at ${car.peakTorqueRPM} RPM`);
+                addText(`Vehicle Type: ${car.type}`);
+                addText(`Fuel Type: ${car.fuelType}`);
+                yPos += 3;
+                
+                addBoldText('Physical Specifications:', 11);
+                addText(`Curb Weight: ${car.mass} kg`);
+                addText(`Redline: ${car.redline} RPM`);
+                addText(`Top Speed: ${car.maxSpeed} km/h`);
+                addText(`Drag Coefficient: ${car.drag}`);
+                addText(`Frontal Area: ${car.frontalArea} square meters`);
+                addText(`Wheel Radius: ${car.wheelRadius} meters`);
+                yPos += 3;
+                
+                addBoldText('Engineering Parameters:', 11);
+                addText(`BSFC: ${car.bsfc} g/kWh`);
+                addText(`Drivetrain Loss: ${(car.drivetrainLoss * 100).toFixed(0)}%`);
+                addText(`Rolling Resistance: ${car.rollingResistance}`);
+                addText(`Cooling Capacity: ${car.coolingCapacity}`);
+                addText(`Optimal RPM: ${car.optimalRPM} RPM`);
+                addText(`Maximum Boost: ${car.maxBoost} bar`);
                 
                 // ===== PAGE 3: OPERATING PARAMETERS =====
-                pdf.addPage();
-                pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, 210, 297, 'F');
-                pdf.setFontSize(20);
-                pdf.setTextColor(59, 130, 246);
-                pdf.text('2. CURRENT OPERATING PARAMETERS', 15, 25);
-                pdf.line(15, 30, 195, 30);
-                pdf.setFontSize(10);
-                pdf.setTextColor(200, 210, 220);
-                const params = [
-                    `Speed: ${d.sp?.toFixed(1) || 0} km/h`,
-                    `Engine RPM: ${d.rpm?.toFixed(0) || 0} (${((d.rpm/car.redline)*100)?.toFixed(0) || 0}% of redline)`,
-                    `Current Gear: ${d.gear || 1}`,
-                    `Torque Output: ${d.at?.toFixed(0) || 0} Nm`,
-                    `Boost Pressure: ${d.bst || 0} bar`,
-                    `Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`,
-                    `Engine Temperature: ${d.et?.toFixed(0) || 0}°C`,
-                    `CO₂ Emissions: ${d.co2?.toFixed(0) || 0} g/km`,
-                    `Engine Load: ${d.ldd?.toFixed(0) || 0}%`,
-                    `Efficiency Score: ${d.eff?.toFixed(0) || 0}/100`,
-                    `Total Weight: ${d.tm?.toFixed(0) || 0} kg`,
-                    `Throttle: ${d.thr || 0}% | Passengers: ${d.pas || 0}`,
-                    `Terrain: ${d.ter || 'Highway'} | Ambient: ${d.amb || 25}°C`,
-                    `Wind: ${d.wnd === 20 ? 'Headwind 20km/h' : d.wnd === -20 ? 'Tailwind 20km/h' : 'None'}`
-                ];
-                params.forEach((p, i) => pdf.text(`• ${p}`, 15, 42 + i * 8));
+                addPage();
+                addTitle('2. CURRENT OPERATING PARAMETERS');
                 
-                // ===== PAGE 4: VEHICLE HEALTH STATUS =====
-                pdf.addPage();
-                pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, 210, 297, 'F');
-                pdf.setFontSize(20);
-                pdf.setTextColor(16, 185, 129);
-                pdf.text('3. VEHICLE HEALTH STATUS', 15, 25);
-                pdf.line(15, 30, 195, 30);
+                checkPageBreak(100);
+                addBoldText('Performance Metrics:', 11);
+                addText(`Current Speed: ${d.sp?.toFixed(1) || 0} km/h`);
+                addText(`Engine RPM: ${d.rpm?.toFixed(0) || 0} (${((d.rpm / car.redline) * 100)?.toFixed(0) || 0}% of redline)`);
+                addText(`Current Gear: ${d.gear || 1} of 6`);
+                addText(`Torque Output: ${d.at?.toFixed(0) || 0} Nm`);
+                addText(`Boost Pressure: ${d.bst || 0} bar`);
+                yPos += 3;
                 
-                // Get status from DOM
-                const statusEl = document.getElementById('vehicleStatus');
-                const statusText = statusEl ? statusEl.innerText : 'Status unavailable';
+                addBoldText('Efficiency Metrics:', 11);
+                addText(`Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`);
+                addText(`Engine Temperature: ${d.et?.toFixed(0) || 0} degrees Celsius`);
+                addText(`CO2 Emissions: ${d.co2?.toFixed(0) || 0} g/km`);
+                addText(`Engine Load: ${d.ldd?.toFixed(0) || 0}%`);
+                addText(`Efficiency Score: ${d.eff?.toFixed(0) || 0} out of 100`);
+                yPos += 3;
                 
-                pdf.setFontSize(10);
-                pdf.setTextColor(200, 210, 220);
-                const statusLines = statusText.split('\n');
-                statusLines.forEach((line, i) => {
-                    if (line.trim() && i < 15) pdf.text(line.trim(), 15, 42 + i * 8);
-                });
+                addBoldText('Operating Conditions:', 11);
+                addText(`Total Weight: ${d.tm?.toFixed(0) || 0} kg`);
+                addText(`Throttle Position: ${d.thr || 0}%`);
+                addText(`Number of Passengers: ${d.pas || 0}`);
+                addText(`Driving Terrain: ${d.ter || 'Highway'}`);
+                addText(`Ambient Temperature: ${d.amb || 25} degrees Celsius`);
+                addText(`Wind Condition: ${d.wnd === 20 ? 'Headwind 20 km/h' : d.wnd === -20 ? 'Tailwind 20 km/h' : 'No Wind'}`);
                 
-                // ===== PAGE 5: PROBLEMS & RECOMMENDATIONS =====
-                pdf.addPage();
-                pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, 210, 297, 'F');
-                pdf.setFontSize(20);
-                pdf.setTextColor(245, 158, 11);
-                pdf.text('4. PROBLEMS & RECOMMENDATIONS', 15, 25);
-                pdf.line(15, 30, 195, 30);
+                // ===== PAGE 4: VEHICLE HEALTH =====
+                addPage();
+                addTitle('3. VEHICLE HEALTH STATUS', [16, 185, 129]);
                 
-                const problemsEl = document.getElementById('problemsList');
-                const recsEl = document.getElementById('recommendations');
-                const problemsText = problemsEl ? problemsEl.innerText : 'No issues';
-                const recsText = recsEl ? recsEl.innerText : 'No recommendations';
+                // Get status values from the simulation
+                const cr = car.fuelType === "Diesel" ? 110 : 105;
+                let engineStatus = 'Normal', engineColor = 'Green';
+                if (d.et > cr) { engineStatus = 'CRITICAL - Overheating'; engineColor = 'Red'; }
+                else if (d.et > 95) { engineStatus = 'Warning - Running Hot'; engineColor = 'Orange'; }
                 
-                pdf.setFontSize(11);
-                pdf.setTextColor(245, 158, 11);
-                pdf.text('Problems Detected:', 15, 45);
-                pdf.setFontSize(9);
-                pdf.setTextColor(200, 210, 220);
-                const pLines = problemsText.split('\n');
-                pLines.forEach((line, i) => {
-                    if (line.trim() && i < 10) pdf.text(line.trim(), 15, 55 + i * 7);
-                });
+                let oilStatus = 'Good', oilColor = 'Green';
+                if (d.et > 105) { oilStatus = 'Thermal Breakdown'; oilColor = 'Red'; }
+                else if (d.et > 90) { oilStatus = 'Viscosity Decreasing'; oilColor = 'Orange'; }
                 
-                pdf.setFontSize(11);
-                pdf.setTextColor(16, 185, 129);
-                pdf.text('Recommendations:', 15, 130);
-                pdf.setFontSize(9);
-                pdf.setTextColor(200, 210, 220);
-                const rLines = recsText.split('\n');
-                rLines.forEach((line, i) => {
-                    if (line.trim() && i < 10) pdf.text(line.trim(), 15, 140 + i * 7);
-                });
+                let transStatus = 'Smooth', transColor = 'Green';
+                if (d.ldd > 85) { transStatus = 'Severe Stress'; transColor = 'Red'; }
+                else if (d.ldd > 65) { transStatus = 'Moderate Stress'; transColor = 'Orange'; }
                 
-                // ===== PAGE 6: RUNNING COSTS =====
-                pdf.addPage();
-                pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, 210, 297, 'F');
-                pdf.setFontSize(20);
-                pdf.setTextColor(59, 130, 246);
-                pdf.text('5. RUNNING COST ANALYSIS', 15, 25);
-                pdf.line(15, 30, 195, 30);
-                pdf.setFontSize(10);
-                pdf.setTextColor(200, 210, 220);
-                const costs = [
-                    `Cost per Kilometer: ₹${d.ck?.toFixed(2) || 0}`,
-                    `Monthly Cost (1,000 km): ₹${(d.ck * 1000)?.toFixed(0) || 0}`,
-                    `Annual Cost (12,000 km): ₹${(d.ck * 12000)?.toFixed(0) || 0}`,
-                    `Annual Fuel Consumption: ${d.af?.toFixed(0) || 0} Liters`,
-                    `Fuel Type: ${car.fuelType} | Price: ₹${car.fuelType === 'Diesel' ? 90 : 105}/L`,
-                    `Current Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`
-                ];
-                costs.forEach((c, i) => pdf.text(`• ${c}`, 15, 42 + i * 12));
+                checkPageBreak(100);
+                addText(`Engine Health: ${engineStatus} (${engineColor})`);
+                addText(`Oil Condition: ${oilStatus} (${oilColor})`);
+                addText(`Transmission: ${transStatus} (${transColor})`);
+                addText(`Total Vehicle Weight: ${d.tm?.toFixed(0) || car.mass} kg`);
+                addText(`Current Torque Output: ${d.at?.toFixed(0) || 0} Nm`);
+                addText(`Boost Pressure: ${d.bst || 0} bar`);
+                addText(`Estimated 0-100 km/h: ${document.getElementById('accelTime')?.textContent || '--'}`);
+                addText(`Engine Load: ${d.ldd?.toFixed(0) || 0}%`);
+                addText(`Efficiency Score: ${d.eff?.toFixed(0) || 0}/100`);
                 
-                // ===== PAGE 7: ENVIRONMENTAL IMPACT =====
-                pdf.addPage();
-                pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, 210, 297, 'F');
-                pdf.setFontSize(20);
-                pdf.setTextColor(16, 185, 129);
-                pdf.text('6. ENVIRONMENTAL IMPACT', 15, 25);
-                pdf.line(15, 30, 195, 30);
-                pdf.setFontSize(10);
-                pdf.setTextColor(200, 210, 220);
-                const eco = [
-                    `CO₂ Emissions: ${d.co2?.toFixed(0) || 0} g/km`,
-                    `Daily CO₂ (50 km commute): ${d.dc?.toFixed(1) || 0} kg`,
-                    `Annual CO₂ Emissions: ${d.ac?.toFixed(2) || 0} tons`,
-                    `Trees Required to Offset: ${d.tn || 0} trees per year`,
-                    `Air Quality Impact Score: ${d.aq?.toFixed(0) || 0}/100`,
-                    `Carbon Footprint: ${d.ac?.toFixed(2) || 0} tons CO₂ equivalent`,
-                    `Annual Fuel Burned: ${d.af?.toFixed(0) || 0} Liters`
-                ];
-                eco.forEach((e, i) => pdf.text(`• ${e}`, 15, 42 + i * 12));
-                
-                pdf.setFontSize(10);
-                pdf.setTextColor(16, 185, 129);
-                pdf.text('Tips to Reduce Environmental Impact:', 15, 140);
-                pdf.setFontSize(8);
-                pdf.setTextColor(180, 190, 200);
-                pdf.text('• Reduce speed by 10 km/h to cut emissions by 12-15%', 15, 150);
-                pdf.text('• Avoid unnecessary idling', 15, 158);
-                pdf.text('• Carpool when possible', 15, 166);
-                pdf.text('• Regular maintenance ensures optimal combustion', 15, 174);
-                
-                // ===== PAGE 8: TIME PREDICTIONS =====
-                pdf.addPage();
-                pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, 210, 297, 'F');
-                pdf.setFontSize(20);
-                pdf.setTextColor(245, 158, 11);
-                pdf.text('7. TIME-BASED PREDICTIONS', 15, 25);
-                pdf.line(15, 30, 195, 30);
-                
-                const timeEl = document.getElementById('timeEffects');
-                const timeText = timeEl ? timeEl.innerText : 'Predictions unavailable';
-                
-                pdf.setFontSize(9);
-                pdf.setTextColor(200, 210, 220);
-                const tLines = timeText.split('\n');
-                tLines.forEach((line, i) => {
-                    if (line.trim() && i < 15) pdf.text(line.trim(), 15, 42 + i * 7);
-                });
-                
-                // ===== PAGE 9: CHARTS =====
-                pdf.addPage();
-                pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, 210, 297, 'F');
-                pdf.setFontSize(20);
-                pdf.setTextColor(16, 185, 129);
-                pdf.text('8. PERFORMANCE GRAPHS', 15, 25);
-                pdf.line(15, 30, 195, 30);
-                
-                status.textContent = 'Capturing charts...';
-                
-                try {
-                    const torqueCanvas = document.getElementById('torqueChart');
-                    if (torqueCanvas) {
-                        const torqueImg = await html2canvas(torqueCanvas, { 
-                            backgroundColor: '#111827',
-                            scale: 2
-                        });
-                        pdf.addImage(torqueImg, 'PNG', 10, 40, 190, 85);
-                        pdf.setFontSize(9);
-                        pdf.setTextColor(148, 163, 184);
-                        pdf.text('Torque & Power Curve - Green: Torque (Nm) | Blue: Power (HP)', 15, 135);
-                    }
-                    
-                    const fuelCanvas = document.getElementById('fuelChart');
-                    if (fuelCanvas) {
-                        const fuelImg = await html2canvas(fuelCanvas, { 
-                            backgroundColor: '#111827',
-                            scale: 2
-                        });
-                        pdf.addImage(fuelImg, 'PNG', 10, 150, 190, 75);
-                        pdf.setFontSize(9);
-                        pdf.setTextColor(148, 163, 184);
-                        pdf.text('Fuel Economy vs Speed Curve', 15, 235);
-                    }
-                } catch (e) {
-                    pdf.setFontSize(10);
-                    pdf.setTextColor(239, 68, 68);
-                    pdf.text('Charts could not be rendered in this PDF', 15, 50);
-                    console.error('Chart capture error:', e);
+                yPos += 8;
+                addBoldText('Status Assessment:', 11);
+                if (d.et > cr) {
+                    addText('CRITICAL: Engine operating at dangerous temperatures. Immediate action required.');
+                } else if (d.et > 95) {
+                    addText('WARNING: Engine running hotter than optimal. Monitor and reduce load if possible.');
+                } else {
+                    addText('NORMAL: All vehicle systems operating within manufacturer specifications.');
                 }
                 
-                // ===== PAGE 10: SUMMARY =====
-                pdf.addPage();
+                // ===== PAGE 5: PROBLEMS & RECOMMENDATIONS =====
+                addPage();
+                addTitle('4. PROBLEMS & RECOMMENDATIONS', [245, 158, 11]);
+                
+                checkPageBreak(60);
+                addBoldText('Detected Issues:', 11);
+                
+                let hasIssues = false;
+                if (d.et > (car.fuelType === "Diesel" ? 108 : 105)) {
+                    addText(`CRITICAL: Engine Overheating - ${car.problems.overheating}`);
+                    addText(`Current temperature: ${d.et?.toFixed(0)}°C. Stop vehicle immediately!`);
+                    hasIssues = true;
+                } else if (d.et > 95) {
+                    addText(`WARNING: Engine Temperature Rising - ${car.problems.overheating}`);
+                    hasIssues = true;
+                }
+                
+                if (d.ldd > 88) {
+                    addText(`CRITICAL: Engine Overload - ${car.problems.highLoad}`);
+                    addText(`Current load: ${d.ldd?.toFixed(0)}%. Reduce throttle immediately!`);
+                    hasIssues = true;
+                } else if (d.ldd > 70) {
+                    addText(`WARNING: High Engine Load - ${car.problems.highLoad}`);
+                    hasIssues = true;
+                }
+                
+                if (!hasIssues) {
+                    addText('No issues detected. Vehicle operating within normal parameters.');
+                }
+                
+                yPos += 8;
+                addBoldText('AI Recommendations:', 11);
+                
+                const rpm = d.rpm || 0;
+                if (rpm < car.optimalRPM * 0.7 && d.ldd > 60) {
+                    addText(`Downshift Recommended: Engine at ${rpm.toFixed(0)} RPM. Optimal range is ${car.optimalRPM} RPM.`);
+                } else if (rpm > car.optimalRPM * 1.3) {
+                    addText(`Upshift Recommended: Engine at ${rpm.toFixed(0)} RPM. Shift up for better fuel economy.`);
+                }
+                
+                if (d.et > 95) {
+                    addText('Cooling Required: Turn off AC, reduce speed by 20%, or take a cooling break.');
+                }
+                
+                addText(`Optimal Driving: ${car.tips.efficiency}`);
+                
+                // ===== PAGE 6: RUNNING COSTS =====
+                addPage();
+                addTitle('5. RUNNING COST ANALYSIS');
+                
+                checkPageBreak(80);
+                addBoldText('Cost Breakdown:', 11);
+                addText(`Cost per Kilometer: Rs. ${d.ck?.toFixed(2) || 0}`);
+                addText(`Monthly Cost (1,000 km): Rs. ${(d.ck * 1000)?.toFixed(0) || 0}`);
+                addText(`Annual Cost (12,000 km): Rs. ${(d.ck * 12000)?.toFixed(0) || 0}`);
+                yPos += 3;
+                
+                addBoldText('Fuel Information:', 11);
+                addText(`Fuel Type: ${car.fuelType}`);
+                addText(`Current Fuel Price: Rs. ${car.fuelType === 'Diesel' ? 90 : 105} per liter`);
+                addText(`Current Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`);
+                addText(`Annual Fuel Consumption: ${d.af?.toFixed(0) || 0} Liters`);
+                yPos += 3;
+                
+                addBoldText('Cost Saving Tips:', 11);
+                addText('Drive at moderate speeds (60-80 km/h) for best fuel economy');
+                addText('Maintain proper tire pressure to reduce rolling resistance');
+                addText('Avoid aggressive acceleration and heavy braking');
+                addText('Regular servicing ensures optimal engine performance');
+                addText('Remove unnecessary weight from the vehicle');
+                
+                // ===== PAGE 7: ENVIRONMENTAL IMPACT =====
+                addPage();
+                addTitle('6. ENVIRONMENTAL IMPACT', [16, 185, 129]);
+                
+                checkPageBreak(80);
+                addBoldText('Emissions Data:', 11);
+                addText(`CO2 Emissions: ${d.co2?.toFixed(0) || 0} grams per kilometer`);
+                addText(`Daily CO2 (50 km commute): ${d.dc?.toFixed(1) || 0} kg`);
+                addText(`Annual CO2 Emissions: ${d.ac?.toFixed(2) || 0} tons`);
+                addText(`Trees Required to Offset: ${d.tn || 0} trees per year`);
+                yPos += 3;
+                
+                addBoldText('Environmental Scores:', 11);
+                addText(`Air Quality Impact Score: ${d.aq?.toFixed(0) || 0} out of 100`);
+                addText(`Carbon Footprint: ${d.ac?.toFixed(2) || 0} tons CO2 equivalent`);
+                addText(`Annual Fuel Burned: ${d.af?.toFixed(0) || 0} Liters`);
+                yPos += 3;
+                
+                addBoldText('How to Reduce Your Impact:', 11);
+                addText('Reduce speed by 10 km/h to cut emissions by 12-15%');
+                addText('Avoid unnecessary idling - it wastes fuel and increases emissions');
+                addText('Carpool when possible to reduce per-person emissions');
+                addText('Use public transportation for short trips');
+                addText('Regular maintenance ensures optimal combustion and lower emissions');
+                addText('Consider hybrid or electric vehicles for future purchases');
+                
+                // ===== PAGE 8: TIME PREDICTIONS =====
+                addPage();
+                addTitle('7. TIME-BASED PREDICTIONS', [245, 158, 11]);
+                
+                checkPageBreak(60);
+                addBoldText('Short-term (0-2 hours):', 11);
+                if (d.et > 105) {
+                    addText('CRITICAL: Engine damage likely within 30 minutes. Stop vehicle immediately!');
+                } else if (d.et > 95 || d.ldd > 80) {
+                    addText('WARNING: Performance may degrade. Monitor temperature and load closely.');
+                } else {
+                    addText('Normal operation expected. Vehicle should perform without issues.');
+                }
+                yPos += 3;
+                
+                addBoldText('Medium-term (2-4 hours):', 11);
+                if (d.ldd > 75 || d.et > 95) {
+                    addText('Oil degradation accelerating. Cooling system under sustained demand.');
+                } else {
+                    addText('Suitable for extended driving. Components operating at design temperatures.');
+                }
+                yPos += 3;
+                
+                addBoldText('Long-term (4+ hours):', 11);
+                if (d.ldd > 85 || d.et > 105) {
+                    addText('CRITICAL RISK: Probable engine seizure or catastrophic failure.');
+                } else if (d.ldd > 65 || d.et > 90) {
+                    addText('Accelerated wear on engine components. Schedule service within 500 km.');
+                } else {
+                    addText('Sustainable long-term operation. Follow regular maintenance schedule.');
+                }
+                
+                yPos += 8;
+                addBoldText('Maintenance Schedule Recommendations:', 11);
+                addText('Oil Change: Every 10,000 km or 12 months');
+                addText('Air Filter: Every 20,000 km');
+                addText('Brake Pads: Every 30,000-50,000 km');
+                addText('Timing Belt: Every 80,000-100,000 km');
+                addText('Coolant Flush: Every 50,000 km or 5 years');
+                
+                // ===== PAGE 9: SUMMARY =====
+                addPage();
                 pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, 210, 297, 'F');
+                pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+                
                 pdf.setFontSize(24);
                 pdf.setTextColor(59, 130, 246);
-                pdf.text('REPORT SUMMARY', 105, 50, { align: 'center' });
+                pdf.text('REPORT SUMMARY', pageWidth/2, 40, { align: 'center' });
                 
-                pdf.setFontSize(14);
+                pdf.setFontSize(13);
                 pdf.setTextColor(255, 255, 255);
-                pdf.text(car.name, 105, 75, { align: 'center' });
-                pdf.text(car.engine, 105, 85, { align: 'center' });
+                pdf.text(car.name, pageWidth/2, 60, { align: 'center' });
+                pdf.text(car.engine, pageWidth/2, 72, { align: 'center' });
                 
-                pdf.setFontSize(11);
+                pdf.setFontSize(10);
                 pdf.setTextColor(200, 210, 220);
-                const summary = [
-                    `Current Speed: ${d.sp?.toFixed(1) || 0} km/h`,
+                const summaryItems = [
+                    `Speed: ${d.sp?.toFixed(1) || 0} km/h`,
                     `Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`,
                     `Efficiency Score: ${d.eff?.toFixed(0) || 0}/100`,
-                    `Annual Running Cost: ₹${(d.ck * 12000)?.toFixed(0) || 0}`,
-                    `Annual CO₂: ${d.ac?.toFixed(2) || 0} tons`,
+                    `Annual Cost: Rs. ${(d.ck * 12000)?.toFixed(0) || 0}`,
+                    `Annual CO2: ${d.ac?.toFixed(2) || 0} tons`,
                     `Trees to Offset: ${d.tn || 0}`,
                     '',
                     'Key Recommendation:',
                     car.tips.efficiency
                 ];
-                summary.forEach((s, i) => pdf.text(s, 105, 105 + i * 12, { align: 'center' }));
+                summaryItems.forEach((item, i) => {
+                    pdf.text(item, pageWidth/2, 92 + i * 10, { align: 'center' });
+                });
                 
-                pdf.setFontSize(8);
+                pdf.setFontSize(7);
                 pdf.setTextColor(148, 163, 184);
-                pdf.text('Generated by IC Engine AI - Professional Vehicle Physics Simulator', 105, 270, { align: 'center' });
-                pdf.text(`© ${new Date().getFullYear()} | Real Physics Engine | BSFC Calculations | Environmental Analysis`, 105, 278, { align: 'center' });
+                pdf.text('Generated by IC Engine AI - Professional Vehicle Physics Simulator', pageWidth/2, 260, { align: 'center' });
+                pdf.text('Real Physics Engine | BSFC Calculations | Environmental Analysis', pageWidth/2, 268, { align: 'center' });
                 
                 // Save PDF
                 const fileName = `${car.name.replace(/\s+/g, '_')}_Report_${new Date().toISOString().split('T')[0]}.pdf`;
                 pdf.save(fileName);
                 
-                status.textContent = '✅ Report downloaded successfully!';
+                status.textContent = 'Report downloaded successfully!';
                 setTimeout(() => {
                     modal.classList.remove('active');
-                }, 2500);
+                }, 2000);
                 
             } catch (error) {
-                console.error('PDF Generation Error:', error);
-                status.textContent = '❌ Error generating PDF. Please try again.';
+                console.error('PDF Error:', error);
+                status.textContent = 'Error generating PDF. Please try again.';
                 setTimeout(() => {
                     modal.classList.remove('active');
                 }, 3000);
@@ -1296,7 +1261,6 @@
             document.getElementById(id).addEventListener('change', updateSim);
         });
 
-        // Initialize
         window.onload = function() {
             initCharts();
             updateCharts(cars[currentCar]);
