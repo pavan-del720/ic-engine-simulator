@@ -25,11 +25,7 @@
             --text-muted: #64748b;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background: var(--bg-primary);
@@ -53,552 +49,148 @@
             gap: 10px;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        .logo { display: flex; align-items: center; gap: 12px; }
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-size: 20px;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
-
         .logo h1 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+            font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px;
             background: linear-gradient(135deg, #f1f5f9, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-
-        .logo span {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            display: block;
-        }
+        .logo span { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; display: block; }
 
         .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            background: rgba(16, 185, 129, 0.12);
-            color: #34d399;
+            padding: 5px 12px; border-radius: 20px; font-size: 0.65rem; font-weight: 700;
+            background: rgba(16, 185, 129, 0.12); color: #34d399;
             border: 1px solid rgba(16, 185, 129, 0.25);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            display: flex; align-items: center; gap: 6px;
         }
+        .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        .pulse-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #10b981;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 18px;
-            padding: 18px 20px;
-            max-width: 1500px;
-            margin: 0 auto;
-        }
+        .container { display: grid; grid-template-columns: 320px 1fr; gap: 18px; padding: 18px 20px; max-width: 1500px; margin: 0 auto; }
 
         .sidebar {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 18px;
-            padding: 18px;
-            position: sticky;
-            top: 90px;
-            max-height: calc(100vh - 110px);
-            overflow-y: auto;
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            border-radius: 18px; padding: 18px;
+            position: sticky; top: 90px; max-height: calc(100vh - 110px); overflow-y: auto;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        .sidebar-section {
-            margin-bottom: 18px;
-        }
-
+        .sidebar-section { margin-bottom: 18px; }
         .sidebar-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px;
+            color: var(--text-muted); margin-bottom: 10px; font-weight: 700;
+            display: flex; align-items: center; gap: 8px;
         }
+        .sidebar-label::after { content: ''; flex: 1; height: 1px; background: var(--border-color); }
 
-        .sidebar-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border-color);
-        }
-
-        .car-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5px;
-        }
-
+        .car-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
         .car-btn {
-            padding: 9px 6px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-tertiary);
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 0.7rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            text-align: center;
+            padding: 9px 6px; border-radius: 8px; border: 1px solid var(--border-color);
+            background: var(--bg-tertiary); color: var(--text-secondary);
+            cursor: pointer; font-size: 0.7rem; font-weight: 600; transition: all 0.2s; text-align: center;
         }
-
-        .car-btn:hover {
-            border-color: var(--accent);
-            color: var(--text-primary);
-            transform: translateY(-1px);
-        }
-
+        .car-btn:hover { border-color: var(--accent); color: var(--text-primary); transform: translateY(-1px); }
         .car-btn.active {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            border-color: transparent;
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #3b82f6, #2563eb); border-color: transparent;
+            color: white; font-weight: 700; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
+        .car-btn.custom { border-style: dashed; border-color: var(--green); color: var(--green); grid-column: 1 / -1; }
 
-        .car-btn.custom {
-            border-style: dashed;
-            border-color: var(--green);
-            color: var(--green);
-            grid-column: 1 / -1;
-        }
+        .slider-group { margin-bottom: 14px; }
+        .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .slider-label { font-size: 0.72rem; color: var(--text-secondary); font-weight: 500; }
+        .slider-val { font-size: 1.2rem; font-weight: 800; color: var(--text-primary); }
 
-        .slider-group {
-            margin-bottom: 14px;
-        }
+        input[type="range"] { width: 100%; height: 4px; -webkit-appearance: none; background: var(--border-color); border-radius: 4px; outline: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); }
 
-        .slider-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
+        select { width: 100%; padding: 9px 12px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 0.8rem; font-weight: 500; outline: none; cursor: pointer; margin-bottom: 8px; }
 
-        .slider-label {
-            font-size: 0.72rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
+        .btn { padding: 11px 18px; border-radius: 10px; border: none; font-weight: 700; font-size: 0.75rem; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 0.8px; width: 100%; margin-top: 8px; }
+        .btn-download { background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25); }
+        .btn-test { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25); }
 
-        .slider-val {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-
-        input[type="range"] {
-            width: 100%;
-            height: 4px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: var(--border-color);
-            border-radius: 4px;
-            outline: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            background: var(--accent);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
-        }
-
-        select {
-            width: 100%;
-            padding: 9px 12px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 0.8rem;
-            font-weight: 500;
-            outline: none;
-            cursor: pointer;
-            margin-bottom: 8px;
-        }
-
-        .btn {
-            padding: 11px 18px;
-            border-radius: 10px;
-            border: none;
-            font-weight: 700;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            width: 100%;
-            margin-top: 8px;
-        }
-
-        .btn-download {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
-        }
-
-        .btn-test {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
-        }
-
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .metrics-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
+        .main-content { display: flex; flex-direction: column; gap: 16px; }
+        .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 
         .metric-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 14px 16px;
-            transition: all 0.3s ease;
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            border-radius: 14px; padding: 14px 16px; transition: all 0.3s;
         }
+        .metric-card:hover { border-color: #2a3f5f; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); }
+        .metric-icon { font-size: 1.3rem; margin-bottom: 6px; }
+        .metric-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); font-weight: 600; }
+        .metric-value { font-size: 1.8rem; font-weight: 900; color: var(--text-primary); line-height: 1.1; }
+        .metric-unit { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; }
 
-        .metric-card:hover {
-            border-color: #2a3f5f;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-        }
+        .card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; padding: 18px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .card-title { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; }
+        .badge { padding: 3px 10px; border-radius: 12px; font-size: 0.6rem; font-weight: 700; }
+        .badge-green { background: rgba(16, 185, 129, 0.12); color: #34d399; }
 
-        .metric-icon {
-            font-size: 1.3rem;
-            margin-bottom: 6px;
-        }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .chart-container { position: relative; height: 180px; }
+        .chart-container.tall { height: 220px; }
 
-        .metric-label {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
+        .mini-stat { background: var(--bg-tertiary); padding: 12px; border-radius: 10px; text-align: center; }
+        .mini-value { font-size: 1.2rem; font-weight: 800; color: #60a5fa; }
+        .mini-label { font-size: 0.6rem; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
 
-        .metric-value {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--text-primary);
-            line-height: 1.1;
-        }
-
-        .metric-unit {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 18px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-
-        .card-title {
-            font-size: 0.68rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            font-weight: 700;
-        }
-
-        .badge {
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.6rem;
-            font-weight: 700;
-        }
-
-        .badge-green {
-            background: rgba(16, 185, 129, 0.12);
-            color: #34d399;
-        }
-
-        .two-col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-
-        .three-col {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .chart-container {
-            position: relative;
-            height: 180px;
-        }
-
-        .chart-container.tall {
-            height: 220px;
-        }
-
-        .mini-stat {
-            background: var(--bg-tertiary);
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .mini-value {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #60a5fa;
-        }
-
-        .mini-label {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-            margin-top: 3px;
-            font-weight: 500;
-        }
-
-        .status-list {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 9px 12px;
-            background: var(--bg-tertiary);
-            border-radius: 8px;
-            font-size: 0.8rem;
-        }
-
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            margin-right: 8px;
-            display: inline-block;
-        }
-
+        .status-list { display: flex; flex-direction: column; gap: 3px; }
+        .status-item { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; background: var(--bg-tertiary); border-radius: 8px; font-size: 0.8rem; }
+        .status-dot { width: 7px; height: 7px; border-radius: 50%; margin-right: 8px; display: inline-block; }
         .dot-green { background: #10b981; box-shadow: 0 0 6px #10b981; }
         .dot-orange { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
         .dot-red { background: #ef4444; box-shadow: 0 0 6px #ef4444; }
 
-        .alert {
-            padding: 10px 12px;
-            border-radius: 8px;
-            margin-bottom: 6px;
-            font-size: 0.75rem;
-            border-left: 3px solid;
-            line-height: 1.4;
-        }
-
+        .alert { padding: 10px 12px; border-radius: 8px; margin-bottom: 6px; font-size: 0.75rem; border-left: 3px solid; line-height: 1.4; }
         .alert-success { background: rgba(16, 185, 129, 0.06); border-color: #10b981; color: #6ee7b7; }
         .alert-warning { background: rgba(245, 158, 11, 0.06); border-color: #f59e0b; color: #fcd34d; }
         .alert-danger { background: rgba(239, 68, 68, 0.06); border-color: #ef4444; color: #fca5a5; }
         .alert-info { background: rgba(59, 130, 246, 0.06); border-color: #3b82f6; color: #93c5fd; }
 
-        .rec-card {
-            display: flex;
-            gap: 10px;
-            padding: 10px 12px;
-            background: var(--bg-tertiary);
-            border-radius: 10px;
-            margin-bottom: 6px;
-        }
+        .rec-card { display: flex; gap: 10px; padding: 10px 12px; background: var(--bg-tertiary); border-radius: 10px; margin-bottom: 6px; }
+        .rec-icon { font-size: 1.3rem; min-width: 24px; text-align: center; }
+        .rec-text h4 { font-size: 0.75rem; font-weight: 700; margin-bottom: 2px; }
+        .rec-text p { font-size: 0.68rem; color: var(--text-muted); line-height: 1.3; }
 
-        .rec-icon {
-            font-size: 1.3rem;
-            min-width: 24px;
-            text-align: center;
-        }
+        .progress-bar { height: 5px; background: var(--bg-tertiary); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+        .progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
 
-        .rec-text h4 {
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
+        .gear-dots { display: flex; gap: 4px; margin-top: 6px; }
+        .gear-dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-tertiary); border: 1px solid var(--border-color); font-size: 0.65rem; font-weight: 700; color: var(--text-muted); transition: all 0.3s; }
+        .gear-dot.active { background: linear-gradient(135deg, #10b981, #059669); border-color: transparent; color: white; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); transform: scale(1.1); }
 
-        .rec-text p {
-            font-size: 0.68rem;
-            color: var(--text-muted);
-            line-height: 1.3;
-        }
+        .footer { text-align: center; padding: 16px; color: var(--text-muted); font-size: 0.65rem; border-top: 1px solid var(--border-color); margin-top: 20px; }
 
-        .progress-bar {
-            height: 5px;
-            background: var(--bg-tertiary);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; padding: 25px; text-align: center; max-width: 400px; width: 90%; }
+        .spinner { width: 35px; height: 35px; border: 3px solid var(--border-color); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 15px auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .progress-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-
-        .gear-dots {
-            display: flex;
-            gap: 4px;
-            margin-top: 6px;
-        }
-
-        .gear-dot {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            transition: all 0.3s;
-        }
-
-        .gear-dot.active {
-            background: linear-gradient(135deg, #10b981, #059669);
-            border-color: transparent;
-            color: white;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
-            transform: scale(1.1);
-        }
-
-        .footer {
-            text-align: center;
-            padding: 16px;
-            color: var(--text-muted);
-            font-size: 0.65rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 20px;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-box {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-
-        .spinner {
-            width: 35px;
-            height: 35px;
-            border: 3px solid var(--border-color);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 15px auto;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 1200px) {
-            .container { grid-template-columns: 1fr; }
-            .sidebar { position: static; max-height: none; }
-            .two-col { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 768px) {
-            .metrics-row { grid-template-columns: 1fr 1fr; }
-            .three-col { grid-template-columns: 1fr 1fr; }
-        }
-
-        @media (max-width: 480px) {
-            .metrics-row { grid-template-columns: 1fr; }
-            .three-col { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 1200px) { .container { grid-template-columns: 1fr; } .sidebar { position: static; max-height: none; } .two-col { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .metrics-row { grid-template-columns: 1fr 1fr; } .three-col { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 480px) { .metrics-row { grid-template-columns: 1fr; } .three-col { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="logo">
             <div class="logo-icon">⚙️</div>
-            <div>
-                <h1>IC ENGINE AI</h1>
-                <span>Professional Vehicle Simulator v2.0</span>
-            </div>
+            <div><h1>IC ENGINE AI</h1><span>Professional Vehicle Simulator v2.0</span></div>
         </div>
-        <div class="status-badge">
-            <span class="pulse-dot"></span>
-            REAL-TIME PHYSICS ACTIVE
-        </div>
+        <div class="status-badge"><span class="pulse-dot"></span>REAL-TIME PHYSICS ACTIVE</div>
     </header>
 
     <div class="container">
@@ -628,35 +220,16 @@
             <div class="sidebar-section">
                 <div class="sidebar-label">🎛️ Controls</div>
                 <div class="slider-group">
-                    <div class="slider-header">
-                        <span class="slider-label">Throttle</span>
-                        <span class="slider-val" id="thrTxt">50%</span>
-                    </div>
+                    <div class="slider-header"><span class="slider-label">Throttle</span><span class="slider-val" id="thrTxt">50%</span></div>
                     <input type="range" id="thr" min="0" max="100" value="50">
                 </div>
                 <div class="slider-group">
-                    <div class="slider-header">
-                        <span class="slider-label">Passengers</span>
-                        <span class="slider-val" id="pasTxt">2</span>
-                    </div>
+                    <div class="slider-header"><span class="slider-label">Passengers</span><span class="slider-val" id="pasTxt">2</span></div>
                     <input type="range" id="pas" min="0" max="6" value="2">
                 </div>
-                <select id="terrain">
-                    <option>City</option>
-                    <option selected>Highway</option>
-                    <option>Hilly</option>
-                    <option>Off-road</option>
-                </select>
-                <select id="ambientTemp">
-                    <option value="10">🌡️ Cold 10°C</option>
-                    <option value="25" selected>🌡️ Normal 25°C</option>
-                    <option value="40">🌡️ Hot 40°C</option>
-                </select>
-                <select id="windCondition">
-                    <option value="0">💨 No Wind</option>
-                    <option value="20">💨 Headwind 20km/h</option>
-                    <option value="-20">💨 Tailwind 20km/h</option>
-                </select>
+                <select id="terrain"><option>City</option><option selected>Highway</option><option>Hilly</option><option>Off-road</option></select>
+                <select id="ambientTemp"><option value="10">🌡️ Cold 10°C</option><option value="25" selected>🌡️ Normal 25°C</option><option value="40">🌡️ Hot 40°C</option></select>
+                <select id="windCondition"><option value="0">💨 No Wind</option><option value="20">💨 Headwind 20km/h</option><option value="-20">💨 Tailwind 20km/h</option></select>
             </div>
 
             <button class="btn btn-download" onclick="generatePDF()">📥 Download PDF Report</button>
@@ -738,7 +311,6 @@
                 ]},
                 options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#94a3b8',usePointStyle:true,boxWidth:6}}},scales:{x:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'#1e2d42'}},y:{ticks:{color:'#64748b',font:{size:9}},grid:{color:'#1e2d42'}}}}
             });
-            
             fChart = new Chart(document.getElementById('fuelChart'), {
                 type:'line',data:{labels:['0','30','60','90','120','150'],datasets:[
                     {label:'km/L',data:[],borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.06)',fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#f59e0b',borderWidth:2}
@@ -752,14 +324,9 @@
             tChart.data.labels=r;tChart.data.datasets[0].data=t;tChart.data.datasets[1].data=p;tChart.update();
             const s=[0,30,60,90,120,150],fe=s.map(x=>{if(x<1)return car.fuelType==="Diesel"?18:14;return Math.max(3,(car.fuelType==="Diesel"?22:18)-(x*0.08)-(car.drag*car.frontalArea*x*x*0.0001));});
             fChart.data.datasets[0].data=fe;fChart.update();
-            document.getElementById('torqueExp').innerHTML=`<span style="color:#10b981;">● Torque</span> Peak: <b>${Math.max(...t)} Nm @ ${car.peakTorqueRPM} RPM</b> | <span style="color:#3b82f6;">● Power</span> Max: <b>${car.power} HP</b>`;
-            document.getElementById('fuelExp').innerHTML=`Best: <b style="color:#10b981;">${fe[2].toFixed(1)} km/L @ 60 km/h</b> | Highway: ${fe[3].toFixed(1)} @ 90 | Loss at 120: <b style="color:#f59e0b;">${((1-fe[4]/fe[2])*100).toFixed(0)}%</b>`;
         }
 
-        function toggleCustomForm() {
-            const f = document.getElementById('customForm');
-            f.style.display = f.style.display === 'none' ? 'block' : 'none';
-        }
+        function toggleCustomForm() { const f=document.getElementById('customForm'); f.style.display=f.style.display==='none'?'block':'none'; }
 
         function addCustomCar() {
             const name=document.getElementById('customName').value||'Custom',mass=parseFloat(document.getElementById('customMass').value)||1500,power=parseFloat(document.getElementById('customPower').value)||120;
@@ -772,11 +339,7 @@
             document.getElementById('customForm').style.display='none';updateCharts(cars[id]);updateSim();alert(`✅ ${name} added!`);
         }
 
-        function selectCar(id,el){
-            currentCar=id;document.querySelectorAll('.car-btn').forEach(x=>x.classList.remove('active'));
-            if(el)el.classList.add('active');
-            document.getElementById('customForm').style.display='none';updateCharts(cars[id]);updateSim();
-        }
+        function selectCar(id,el){currentCar=id;document.querySelectorAll('.car-btn').forEach(x=>x.classList.remove('active'));if(el)el.classList.add('active');document.getElementById('customForm').style.display='none';updateCharts(cars[id]);updateSim();}
 
         function updateSim(){
             const car=cars[currentCar];if(!car)return;
@@ -794,7 +357,6 @@
             let eff=100-(co2/5)-Math.max(0,(et-90))*1.5-Math.abs(ldd-60)*1.2;eff=Math.max(5,Math.min(100,eff));
             const dc=(co2*50)/1000,ac=(co2*12000)/1000000,tn=Math.ceil(ac*6.5),af=sp>0.1?(12000/sp)*fl:0,aq=Math.min(100,(co2/5)+(car.fuelType==="Diesel"?20:10));
             simData={car,thr,pas,ter,amb,wnd,sp,rpm,gear,at,bst,fe,et,co2,ldd,ck,eff,tm,fl,dc,ac,tn,af,aq,tr};
-            
             document.getElementById('speed').textContent=sp.toFixed(1);document.getElementById('rpm').textContent=rpm.toFixed(0);
             document.getElementById('gearTxt').textContent=gear;document.getElementById('fuel').textContent=fe.toFixed(1);
             document.getElementById('temp').textContent=et.toFixed(0);document.getElementById('co2').textContent=co2.toFixed(0);
@@ -810,12 +372,10 @@
             document.getElementById('airQualityIndex').textContent=aq.toFixed(0)+'/100';
             document.getElementById('fuelConsumed').textContent=af.toFixed(0)+' L';
             document.getElementById('carbonFootprint').textContent=ac.toFixed(2);
-            
             const rp=(rpm/car.redline)*100,rb=document.getElementById('rpmBar');rb.style.width=rp+'%';rb.style.background=rp>90?'#ef4444':rp>70?'#f59e0b':'#10b981';
             const eb=document.getElementById('effBar');eb.style.width=eff+'%';eb.style.background=eff>70?'#10b981':eff>50?'#f59e0b':'#ef4444';
             document.querySelectorAll('.gear-dot').forEach(d=>d.classList.remove('active'));
             const ad=document.querySelector(`[data-g="${gear}"]`);if(ad)ad.classList.add('active');
-            
             updateStatus(car,et,ldd);updateProblems(car,thr,et,ldd,fe,ter);updateRecs(car,thr,et,ldd,rpm);updateTime(car,thr,et,ldd);
         }
 
@@ -876,397 +436,317 @@
             const modal = document.getElementById('pdfModal');
             const status = document.getElementById('pdfStatus');
             modal.classList.add('active');
-            status.textContent = 'Preparing report data...';
-            
+            status.textContent = 'Preparing report...';
             await new Promise(resolve => setTimeout(resolve, 500));
-            
             try {
                 const car = cars[currentCar];
                 const d = simData;
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
-                const pageWidth = 210;
-                const pageHeight = 297;
-                const margin = 15;
-                let yPos = margin;
+                const pw = 210, ph = 297, m = 15;
+                let y = m;
                 
-                // ===== HELPER FUNCTIONS =====
-                function addPage() {
+                function newPage() {
                     pdf.addPage();
-                    pdf.setFillColor(255, 255, 255);
-                    pdf.rect(0, 0, pageWidth, pageHeight, 'F');
-                    yPos = margin;
+                    pdf.setFillColor(10, 14, 23);
+                    pdf.rect(0, 0, pw, ph, 'F');
+                    y = m;
                 }
                 
                 function addTitle(text, color = [59, 130, 246]) {
                     pdf.setFontSize(18);
                     pdf.setTextColor(...color);
-                    pdf.text(text, margin, yPos);
+                    pdf.text(text, m, y);
                     pdf.setDrawColor(...color);
-                    pdf.line(margin, yPos + 3, pageWidth - margin, yPos + 3);
-                    yPos += 12;
+                    pdf.setLineWidth(0.5);
+                    pdf.line(m, y + 3, pw - m, y + 3);
+                    y += 12;
                     pdf.setFontSize(10);
-                    pdf.setTextColor(60, 60, 60);
+                    pdf.setTextColor(200, 210, 220);
                 }
                 
-                function addText(text, size = 10, indent = 0) {
+                function addText(text, size = 9) {
                     pdf.setFontSize(size);
-                    pdf.text(text, margin + indent, yPos);
-                    yPos += size * 0.6;
+                    pdf.setTextColor(200, 210, 220);
+                    pdf.text(text, m, y);
+                    y += size * 0.55;
                 }
                 
-                function addBoldText(text, size = 10) {
+                function addBold(text, size = 10) {
                     pdf.setFont(undefined, 'bold');
                     pdf.setFontSize(size);
-                    pdf.text(text, margin, yPos);
+                    pdf.setTextColor(241, 245, 249);
+                    pdf.text(text, m, y);
                     pdf.setFont(undefined, 'normal');
-                    yPos += size * 0.6;
+                    y += size * 0.6;
                 }
                 
                 function addLine() {
-                    pdf.setDrawColor(200, 200, 200);
-                    pdf.line(margin, yPos, pageWidth - margin, yPos);
-                    yPos += 5;
+                    pdf.setDrawColor(30, 45, 66);
+                    pdf.setLineWidth(0.2);
+                    pdf.line(m, y, pw - m, y);
+                    y += 4;
                 }
                 
-                function checkPageBreak(needed = 20) {
-                    if (yPos + needed > pageHeight - margin) {
-                        addPage();
-                    }
+                function checkSpace(need = 20) {
+                    if (y + need > ph - m) newPage();
                 }
                 
-                // ===== PAGE 1: COVER =====
+                // PAGE 1: COVER
                 pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, pageWidth, pageHeight, 'F');
-                
-                pdf.setFontSize(28);
+                pdf.rect(0, 0, pw, ph, 'F');
+                pdf.setFillColor(59, 130, 246);
+                pdf.rect(0, 0, pw, 3, 'F');
+                pdf.rect(0, ph - 3, pw, 3, 'F');
+                pdf.setFontSize(30);
                 pdf.setTextColor(59, 130, 246);
-                pdf.text('IC ENGINE AI', pageWidth/2, 60, { align: 'center' });
-                
+                pdf.text('IC ENGINE AI', pw/2, 55, { align: 'center' });
+                pdf.setFontSize(14);
+                pdf.setTextColor(148, 163, 184);
+                pdf.text('VEHICLE PERFORMANCE REPORT', pw/2, 72, { align: 'center' });
                 pdf.setFontSize(16);
-                pdf.setTextColor(255, 255, 255);
-                pdf.text('Vehicle Performance', pageWidth/2, 85, { align: 'center' });
-                pdf.text('Analysis Report', pageWidth/2, 97, { align: 'center' });
-                
-                pdf.setFontSize(13);
                 pdf.setTextColor(16, 185, 129);
-                pdf.text(car.name, pageWidth/2, 130, { align: 'center' });
+                pdf.text(car.name, pw/2, 120, { align: 'center' });
+                pdf.setFontSize(10);
+                pdf.setTextColor(241, 245, 249);
+                pdf.text(`${car.engine} | ${car.power} HP | ${car.fuelType}`, pw/2, 135, { align: 'center' });
+                pdf.setFontSize(8);
+                pdf.setTextColor(148, 163, 184);
+                pdf.text(`Generated: ${new Date().toLocaleString()}`, pw/2, 200, { align: 'center' });
+                pdf.text('Real Physics Engine | BSFC Calculations | Environmental Analysis', pw/2, 212, { align: 'center' });
                 
-                pdf.setFontSize(9);
-                pdf.setTextColor(200, 210, 220);
-                pdf.text(`${car.engine} | ${car.power} HP | ${car.fuelType}`, pageWidth/2, 145, { align: 'center' });
-                pdf.text(`Generated: ${new Date().toLocaleString()}`, pageWidth/2, 170, { align: 'center' });
-                pdf.text('Real Physics Engine | BSFC Calculations | Environmental Analysis', pageWidth/2, 185, { align: 'center' });
-                
-                // ===== PAGE 2: SPECIFICATIONS =====
-                addPage();
+                // PAGE 2: SPECIFICATIONS
+                newPage();
                 addTitle('1. VEHICLE SPECIFICATIONS');
-                
-                checkPageBreak(80);
-                addBoldText('Basic Information:', 11);
+                checkSpace(50);
+                addBold('Basic Information', 10, [16, 185, 129]);
                 addText(`Vehicle Name: ${car.name}`);
                 addText(`Engine: ${car.engine}`);
                 addText(`Power Output: ${car.power} HP (${car.powerKW} kW)`);
                 addText(`Peak Torque: ${Math.max(...Object.values(car.torqueCurve))} Nm at ${car.peakTorqueRPM} RPM`);
                 addText(`Vehicle Type: ${car.type}`);
                 addText(`Fuel Type: ${car.fuelType}`);
-                yPos += 3;
-                
-                addBoldText('Physical Specifications:', 11);
+                addLine();
+                checkSpace(40);
+                addBold('Physical Specifications', 10, [16, 185, 129]);
                 addText(`Curb Weight: ${car.mass} kg`);
                 addText(`Redline: ${car.redline} RPM`);
                 addText(`Top Speed: ${car.maxSpeed} km/h`);
                 addText(`Drag Coefficient: ${car.drag}`);
-                addText(`Frontal Area: ${car.frontalArea} square meters`);
-                addText(`Wheel Radius: ${car.wheelRadius} meters`);
-                yPos += 3;
-                
-                addBoldText('Engineering Parameters:', 11);
+                addText(`Frontal Area: ${car.frontalArea} m²`);
+                addText(`Wheel Radius: ${car.wheelRadius} m`);
+                addLine();
+                checkSpace(30);
+                addBold('Engineering Parameters', 10, [16, 185, 129]);
                 addText(`BSFC: ${car.bsfc} g/kWh`);
-                addText(`Drivetrain Loss: ${(car.drivetrainLoss * 100).toFixed(0)}%`);
+                addText(`Drivetrain Loss: ${(car.drivetrainLoss*100).toFixed(0)}%`);
                 addText(`Rolling Resistance: ${car.rollingResistance}`);
                 addText(`Cooling Capacity: ${car.coolingCapacity}`);
                 addText(`Optimal RPM: ${car.optimalRPM} RPM`);
                 addText(`Maximum Boost: ${car.maxBoost} bar`);
                 
-                // ===== PAGE 3: OPERATING PARAMETERS =====
-                addPage();
-                addTitle('2. CURRENT OPERATING PARAMETERS');
-                
-                checkPageBreak(100);
-                addBoldText('Performance Metrics:', 11);
+                // PAGE 3: OPERATING PARAMETERS
+                newPage();
+                addTitle('2. CURRENT OPERATING PARAMETERS', [16, 185, 129]);
+                checkSpace(40);
+                addBold('Performance Metrics', 10, [16, 185, 129]);
                 addText(`Current Speed: ${d.sp?.toFixed(1) || 0} km/h`);
-                addText(`Engine RPM: ${d.rpm?.toFixed(0) || 0} (${((d.rpm / car.redline) * 100)?.toFixed(0) || 0}% of redline)`);
+                addText(`Engine RPM: ${d.rpm?.toFixed(0) || 0} (${((d.rpm/car.redline)*100)?.toFixed(0) || 0}% of redline)`);
                 addText(`Current Gear: ${d.gear || 1} of 6`);
                 addText(`Torque Output: ${d.at?.toFixed(0) || 0} Nm`);
                 addText(`Boost Pressure: ${d.bst || 0} bar`);
-                yPos += 3;
-                
-                addBoldText('Efficiency Metrics:', 11);
+                addLine();
+                checkSpace(40);
+                addBold('Efficiency Metrics', 10, [16, 185, 129]);
                 addText(`Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`);
-                addText(`Engine Temperature: ${d.et?.toFixed(0) || 0} degrees Celsius`);
+                addText(`Engine Temperature: ${d.et?.toFixed(0) || 0}°C`);
                 addText(`CO2 Emissions: ${d.co2?.toFixed(0) || 0} g/km`);
                 addText(`Engine Load: ${d.ldd?.toFixed(0) || 0}%`);
-                addText(`Efficiency Score: ${d.eff?.toFixed(0) || 0} out of 100`);
-                yPos += 3;
-                
-                addBoldText('Operating Conditions:', 11);
+                addText(`Efficiency Score: ${d.eff?.toFixed(0) || 0}/100`);
+                addLine();
+                checkSpace(40);
+                addBold('Operating Conditions', 10, [16, 185, 129]);
                 addText(`Total Weight: ${d.tm?.toFixed(0) || 0} kg`);
                 addText(`Throttle Position: ${d.thr || 0}%`);
-                addText(`Number of Passengers: ${d.pas || 0}`);
-                addText(`Driving Terrain: ${d.ter || 'Highway'}`);
-                addText(`Ambient Temperature: ${d.amb || 25} degrees Celsius`);
-                addText(`Wind Condition: ${d.wnd === 20 ? 'Headwind 20 km/h' : d.wnd === -20 ? 'Tailwind 20 km/h' : 'No Wind'}`);
+                addText(`Passengers: ${d.pas || 0}`);
+                addText(`Terrain: ${d.ter || 'Highway'}`);
+                addText(`Ambient Temp: ${d.amb || 25}°C`);
+                addText(`Wind: ${d.wnd===20?'Headwind':d.wnd===-20?'Tailwind':'None'}`);
                 
-                // ===== PAGE 4: VEHICLE HEALTH =====
-                addPage();
+                // PAGE 4: VEHICLE HEALTH
+                newPage();
                 addTitle('3. VEHICLE HEALTH STATUS', [16, 185, 129]);
+                const cr = car.fuelType==="Diesel"?110:105;
+                let es='Normal',ec=[16,185,129];if(d.et>cr){es='CRITICAL';ec=[239,68,68];}else if(d.et>95){es='Warning';ec=[245,158,11];}
+                let os='Optimal',oc=[16,185,129];if(d.et>105){os='Degraded';oc=[239,68,68];}else if(d.et>90){os='Thinning';oc=[245,158,11];}
+                let ts='Smooth',tc=[16,185,129];if(d.ldd>85){ts='Stressed';tc=[239,68,68];}else if(d.ldd>65){ts='Moderate';tc=[245,158,11];}
+                checkSpace(50);
+                addBold('Health Indicators', 10, [16, 185, 129]);
+                addText(`Engine Health: ${es}`, 9);
+                addText(`Oil Condition: ${os}`, 9);
+                addText(`Transmission: ${ts}`, 9);
+                addText(`Total Weight: ${d.tm?.toFixed(0)||car.mass} kg`);
+                addText(`Torque Output: ${d.at?.toFixed(0)||0} Nm`);
+                addText(`Boost Pressure: ${d.bst||0} bar`);
+                addText(`0-100 km/h: ${document.getElementById('accelTime')?.textContent||'--'}`);
+                addLine();
+                checkSpace(20);
+                addBold('Status Assessment:', 10, [16, 185, 129]);
+                if(d.et>cr) addText('CRITICAL: Engine operating at dangerous temperatures.', 9);
+                else if(d.et>95) addText('WARNING: Engine running hotter than optimal.', 9);
+                else addText('NORMAL: All systems within manufacturer specifications.', 9);
                 
-                // Get status values from the simulation
-                const cr = car.fuelType === "Diesel" ? 110 : 105;
-                let engineStatus = 'Normal', engineColor = 'Green';
-                if (d.et > cr) { engineStatus = 'CRITICAL - Overheating'; engineColor = 'Red'; }
-                else if (d.et > 95) { engineStatus = 'Warning - Running Hot'; engineColor = 'Orange'; }
-                
-                let oilStatus = 'Good', oilColor = 'Green';
-                if (d.et > 105) { oilStatus = 'Thermal Breakdown'; oilColor = 'Red'; }
-                else if (d.et > 90) { oilStatus = 'Viscosity Decreasing'; oilColor = 'Orange'; }
-                
-                let transStatus = 'Smooth', transColor = 'Green';
-                if (d.ldd > 85) { transStatus = 'Severe Stress'; transColor = 'Red'; }
-                else if (d.ldd > 65) { transStatus = 'Moderate Stress'; transColor = 'Orange'; }
-                
-                checkPageBreak(100);
-                addText(`Engine Health: ${engineStatus} (${engineColor})`);
-                addText(`Oil Condition: ${oilStatus} (${oilColor})`);
-                addText(`Transmission: ${transStatus} (${transColor})`);
-                addText(`Total Vehicle Weight: ${d.tm?.toFixed(0) || car.mass} kg`);
-                addText(`Current Torque Output: ${d.at?.toFixed(0) || 0} Nm`);
-                addText(`Boost Pressure: ${d.bst || 0} bar`);
-                addText(`Estimated 0-100 km/h: ${document.getElementById('accelTime')?.textContent || '--'}`);
-                addText(`Engine Load: ${d.ldd?.toFixed(0) || 0}%`);
-                addText(`Efficiency Score: ${d.eff?.toFixed(0) || 0}/100`);
-                
-                yPos += 8;
-                addBoldText('Status Assessment:', 11);
-                if (d.et > cr) {
-                    addText('CRITICAL: Engine operating at dangerous temperatures. Immediate action required.');
-                } else if (d.et > 95) {
-                    addText('WARNING: Engine running hotter than optimal. Monitor and reduce load if possible.');
-                } else {
-                    addText('NORMAL: All vehicle systems operating within manufacturer specifications.');
-                }
-                
-                // ===== PAGE 5: PROBLEMS & RECOMMENDATIONS =====
-                addPage();
+                // PAGE 5: PROBLEMS & RECOMMENDATIONS
+                newPage();
                 addTitle('4. PROBLEMS & RECOMMENDATIONS', [245, 158, 11]);
-                
-                checkPageBreak(60);
-                addBoldText('Detected Issues:', 11);
-                
+                checkSpace(40);
+                addBold('Detected Issues:', 10, [16, 185, 129]);
                 let hasIssues = false;
-                if (d.et > (car.fuelType === "Diesel" ? 108 : 105)) {
-                    addText(`CRITICAL: Engine Overheating - ${car.problems.overheating}`);
-                    addText(`Current temperature: ${d.et?.toFixed(0)}°C. Stop vehicle immediately!`);
+                if(d.et>(car.fuelType==="Diesel"?108:105)){
+                    addText(`CRITICAL: Engine Overheating - ${car.problems.overheating}`, 9);
+                    addText(`Temperature: ${d.et?.toFixed(0)}°C. Stop immediately!`, 9);
                     hasIssues = true;
-                } else if (d.et > 95) {
-                    addText(`WARNING: Engine Temperature Rising - ${car.problems.overheating}`);
-                    hasIssues = true;
-                }
-                
-                if (d.ldd > 88) {
-                    addText(`CRITICAL: Engine Overload - ${car.problems.highLoad}`);
-                    addText(`Current load: ${d.ldd?.toFixed(0)}%. Reduce throttle immediately!`);
-                    hasIssues = true;
-                } else if (d.ldd > 70) {
-                    addText(`WARNING: High Engine Load - ${car.problems.highLoad}`);
+                } else if(d.et>95){
+                    addText(`WARNING: Temperature Rising - ${car.problems.overheating}`, 9);
                     hasIssues = true;
                 }
-                
-                if (!hasIssues) {
-                    addText('No issues detected. Vehicle operating within normal parameters.');
+                if(d.ldd>88){
+                    addText(`CRITICAL: Engine Overload - ${car.problems.highLoad}`, 9);
+                    addText(`Load: ${d.ldd?.toFixed(0)}%. Reduce throttle!`, 9);
+                    hasIssues = true;
+                } else if(d.ldd>70){
+                    addText(`WARNING: High Load - ${car.problems.highLoad}`, 9);
+                    hasIssues = true;
                 }
+                if(!hasIssues) addText('No issues detected. Vehicle operating normally.', 9);
+                addLine();
+                checkSpace(20);
+                addBold('Recommendations:', 10, [16, 185, 129]);
+                const rpmV = d.rpm||0;
+                if(rpmV<car.optimalRPM*0.7&&d.ldd>60) addText(`Downshift: Engine at ${rpmV.toFixed(0)} RPM. Optimal: ${car.optimalRPM} RPM.`, 9);
+                else if(rpmV>car.optimalRPM*1.3) addText(`Upshift: Running at ${((rpmV/car.redline)*100).toFixed(0)}% of redline.`, 9);
+                if(d.et>95) addText('Cool Down: Reduce speed 20% or take a break.', 9);
+                addText(`Optimal: ${car.tips.efficiency}`, 9);
                 
-                yPos += 8;
-                addBoldText('AI Recommendations:', 11);
-                
-                const rpm = d.rpm || 0;
-                if (rpm < car.optimalRPM * 0.7 && d.ldd > 60) {
-                    addText(`Downshift Recommended: Engine at ${rpm.toFixed(0)} RPM. Optimal range is ${car.optimalRPM} RPM.`);
-                } else if (rpm > car.optimalRPM * 1.3) {
-                    addText(`Upshift Recommended: Engine at ${rpm.toFixed(0)} RPM. Shift up for better fuel economy.`);
-                }
-                
-                if (d.et > 95) {
-                    addText('Cooling Required: Turn off AC, reduce speed by 20%, or take a cooling break.');
-                }
-                
-                addText(`Optimal Driving: ${car.tips.efficiency}`);
-                
-                // ===== PAGE 6: RUNNING COSTS =====
-                addPage();
+                // PAGE 6: RUNNING COSTS
+                newPage();
                 addTitle('5. RUNNING COST ANALYSIS');
-                
-                checkPageBreak(80);
-                addBoldText('Cost Breakdown:', 11);
-                addText(`Cost per Kilometer: Rs. ${d.ck?.toFixed(2) || 0}`);
-                addText(`Monthly Cost (1,000 km): Rs. ${(d.ck * 1000)?.toFixed(0) || 0}`);
-                addText(`Annual Cost (12,000 km): Rs. ${(d.ck * 12000)?.toFixed(0) || 0}`);
-                yPos += 3;
-                
-                addBoldText('Fuel Information:', 11);
+                checkSpace(40);
+                addBold('Cost Breakdown', 10, [16, 185, 129]);
+                addText(`Cost per km: Rs. ${d.ck?.toFixed(2)||0}`);
+                addText(`Monthly (1,000 km): Rs. ${(d.ck*1000)?.toFixed(0)||0}`);
+                addText(`Annual (12,000 km): Rs. ${(d.ck*12000)?.toFixed(0)||0}`);
+                addLine();
+                checkSpace(30);
+                addBold('Fuel Information', 10, [16, 185, 129]);
                 addText(`Fuel Type: ${car.fuelType}`);
-                addText(`Current Fuel Price: Rs. ${car.fuelType === 'Diesel' ? 90 : 105} per liter`);
-                addText(`Current Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`);
-                addText(`Annual Fuel Consumption: ${d.af?.toFixed(0) || 0} Liters`);
-                yPos += 3;
+                addText(`Fuel Price: Rs. ${car.fuelType==='Diesel'?90:105}/L`);
+                addText(`Fuel Economy: ${d.fe?.toFixed(1)||0} km/L`);
+                addText(`Annual Fuel: ${d.af?.toFixed(0)||0} Liters`);
+                addLine();
+                checkSpace(20);
+                addBold('Saving Tips:', 10, [16, 185, 129]);
+                addText('• Drive at 60-80 km/h for best economy', 8);
+                addText('• Maintain proper tire pressure', 8);
+                addText('• Avoid aggressive driving', 8);
+                addText('• Regular servicing saves money', 8);
                 
-                addBoldText('Cost Saving Tips:', 11);
-                addText('Drive at moderate speeds (60-80 km/h) for best fuel economy');
-                addText('Maintain proper tire pressure to reduce rolling resistance');
-                addText('Avoid aggressive acceleration and heavy braking');
-                addText('Regular servicing ensures optimal engine performance');
-                addText('Remove unnecessary weight from the vehicle');
-                
-                // ===== PAGE 7: ENVIRONMENTAL IMPACT =====
-                addPage();
+                // PAGE 7: ENVIRONMENTAL
+                newPage();
                 addTitle('6. ENVIRONMENTAL IMPACT', [16, 185, 129]);
+                checkSpace(40);
+                addBold('Emissions Data', 10, [16, 185, 129]);
+                addText(`CO2 per km: ${d.co2?.toFixed(0)||0} g`);
+                addText(`Daily CO2 (50 km): ${d.dc?.toFixed(1)||0} kg`);
+                addText(`Annual CO2: ${d.ac?.toFixed(2)||0} tons`);
+                addText(`Trees to Offset: ${d.tn||0} trees/year`);
+                addLine();
+                checkSpace(30);
+                addBold('Environmental Scores', 10, [16, 185, 129]);
+                addText(`Air Quality Impact: ${d.aq?.toFixed(0)||0}/100`);
+                addText(`Carbon Footprint: ${d.ac?.toFixed(2)||0} tCO2e`);
+                addText(`Fuel Burned/Year: ${d.af?.toFixed(0)||0} Liters`);
+                addLine();
+                checkSpace(20);
+                addBold('Reduce Impact:', 10, [16, 185, 129]);
+                addText('• Reduce speed 10 km/h = 12-15% less CO2', 8);
+                addText('• Avoid unnecessary idling', 8);
+                addText('• Carpool when possible', 8);
+                addText('• Regular maintenance helps', 8);
                 
-                checkPageBreak(80);
-                addBoldText('Emissions Data:', 11);
-                addText(`CO2 Emissions: ${d.co2?.toFixed(0) || 0} grams per kilometer`);
-                addText(`Daily CO2 (50 km commute): ${d.dc?.toFixed(1) || 0} kg`);
-                addText(`Annual CO2 Emissions: ${d.ac?.toFixed(2) || 0} tons`);
-                addText(`Trees Required to Offset: ${d.tn || 0} trees per year`);
-                yPos += 3;
-                
-                addBoldText('Environmental Scores:', 11);
-                addText(`Air Quality Impact Score: ${d.aq?.toFixed(0) || 0} out of 100`);
-                addText(`Carbon Footprint: ${d.ac?.toFixed(2) || 0} tons CO2 equivalent`);
-                addText(`Annual Fuel Burned: ${d.af?.toFixed(0) || 0} Liters`);
-                yPos += 3;
-                
-                addBoldText('How to Reduce Your Impact:', 11);
-                addText('Reduce speed by 10 km/h to cut emissions by 12-15%');
-                addText('Avoid unnecessary idling - it wastes fuel and increases emissions');
-                addText('Carpool when possible to reduce per-person emissions');
-                addText('Use public transportation for short trips');
-                addText('Regular maintenance ensures optimal combustion and lower emissions');
-                addText('Consider hybrid or electric vehicles for future purchases');
-                
-                // ===== PAGE 8: TIME PREDICTIONS =====
-                addPage();
+                // PAGE 8: TIME PREDICTIONS
+                newPage();
                 addTitle('7. TIME-BASED PREDICTIONS', [245, 158, 11]);
+                checkSpace(30);
+                addBold('Short-term (0-2 hours):', 10, [59, 130, 246]);
+                if(d.et>105) addText('CRITICAL: Engine damage likely within 30 min. Stop!', 9);
+                else if(d.et>95||d.ldd>80) addText('WARNING: Performance may degrade.', 9);
+                else addText('Normal operation expected.', 9);
+                checkSpace(25);
+                addBold('Medium-term (2-4 hours):', 10, [59, 130, 246]);
+                if(d.ldd>75||d.et>95) addText('Oil degrading. Cooling system under demand.', 9);
+                else addText('Suitable for extended driving.', 9);
+                checkSpace(25);
+                addBold('Long-term (4+ hours):', 10, [59, 130, 246]);
+                if(d.ldd>85||d.et>105) addText('CRITICAL RISK: Possible catastrophic failure.', 9);
+                else if(d.ldd>65||d.et>90) addText('Accelerated wear. Service within 500 km.', 9);
+                else addText('Sustainable long-term operation.', 9);
+                checkSpace(20);
+                addBold('Maintenance Schedule:', 10, [16, 185, 129]);
+                addText('• Oil Change: Every 10,000 km', 8);
+                addText('• Air Filter: Every 20,000 km', 8);
+                addText('• Brake Pads: Every 30,000-50,000 km', 8);
+                addText('• Timing Belt: Every 80,000-100,000 km', 8);
+                addText('• Coolant Flush: Every 50,000 km', 8);
                 
-                checkPageBreak(60);
-                addBoldText('Short-term (0-2 hours):', 11);
-                if (d.et > 105) {
-                    addText('CRITICAL: Engine damage likely within 30 minutes. Stop vehicle immediately!');
-                } else if (d.et > 95 || d.ldd > 80) {
-                    addText('WARNING: Performance may degrade. Monitor temperature and load closely.');
-                } else {
-                    addText('Normal operation expected. Vehicle should perform without issues.');
-                }
-                yPos += 3;
-                
-                addBoldText('Medium-term (2-4 hours):', 11);
-                if (d.ldd > 75 || d.et > 95) {
-                    addText('Oil degradation accelerating. Cooling system under sustained demand.');
-                } else {
-                    addText('Suitable for extended driving. Components operating at design temperatures.');
-                }
-                yPos += 3;
-                
-                addBoldText('Long-term (4+ hours):', 11);
-                if (d.ldd > 85 || d.et > 105) {
-                    addText('CRITICAL RISK: Probable engine seizure or catastrophic failure.');
-                } else if (d.ldd > 65 || d.et > 90) {
-                    addText('Accelerated wear on engine components. Schedule service within 500 km.');
-                } else {
-                    addText('Sustainable long-term operation. Follow regular maintenance schedule.');
-                }
-                
-                yPos += 8;
-                addBoldText('Maintenance Schedule Recommendations:', 11);
-                addText('Oil Change: Every 10,000 km or 12 months');
-                addText('Air Filter: Every 20,000 km');
-                addText('Brake Pads: Every 30,000-50,000 km');
-                addText('Timing Belt: Every 80,000-100,000 km');
-                addText('Coolant Flush: Every 50,000 km or 5 years');
-                
-                // ===== PAGE 9: SUMMARY =====
-                addPage();
-                pdf.setFillColor(10, 14, 23);
-                pdf.rect(0, 0, pageWidth, pageHeight, 'F');
-                
+                // PAGE 9: SUMMARY
+                newPage();
+                pdf.setFillColor(59, 130, 246);
+                pdf.rect(0, 0, pw, 3, 'F');
+                pdf.rect(0, ph - 3, pw, 3, 'F');
                 pdf.setFontSize(24);
                 pdf.setTextColor(59, 130, 246);
-                pdf.text('REPORT SUMMARY', pageWidth/2, 40, { align: 'center' });
-                
+                pdf.text('REPORT SUMMARY', pw/2, 40, { align: 'center' });
                 pdf.setFontSize(13);
-                pdf.setTextColor(255, 255, 255);
-                pdf.text(car.name, pageWidth/2, 60, { align: 'center' });
-                pdf.text(car.engine, pageWidth/2, 72, { align: 'center' });
-                
+                pdf.setTextColor(241, 245, 249);
+                pdf.text(car.name, pw/2, 60, { align: 'center' });
+                pdf.text(car.engine, pw/2, 72, { align: 'center' });
                 pdf.setFontSize(10);
                 pdf.setTextColor(200, 210, 220);
-                const summaryItems = [
-                    `Speed: ${d.sp?.toFixed(1) || 0} km/h`,
-                    `Fuel Economy: ${d.fe?.toFixed(1) || 0} km/L`,
-                    `Efficiency Score: ${d.eff?.toFixed(0) || 0}/100`,
-                    `Annual Cost: Rs. ${(d.ck * 12000)?.toFixed(0) || 0}`,
-                    `Annual CO2: ${d.ac?.toFixed(2) || 0} tons`,
-                    `Trees to Offset: ${d.tn || 0}`,
+                const items = [
+                    `Speed: ${d.sp?.toFixed(1)||0} km/h`,
+                    `Fuel Economy: ${d.fe?.toFixed(1)||0} km/L`,
+                    `Efficiency: ${d.eff?.toFixed(0)||0}/100`,
+                    `Annual Cost: Rs. ${(d.ck*12000)?.toFixed(0)||0}`,
+                    `Annual CO2: ${d.ac?.toFixed(2)||0} tons`,
+                    `Trees to Plant: ${d.tn||0}`,
                     '',
                     'Key Recommendation:',
                     car.tips.efficiency
                 ];
-                summaryItems.forEach((item, i) => {
-                    pdf.text(item, pageWidth/2, 92 + i * 10, { align: 'center' });
+                items.forEach((item, i) => {
+                    pdf.text(item, pw/2, 92 + i * 10, { align: 'center' });
                 });
-                
                 pdf.setFontSize(7);
                 pdf.setTextColor(148, 163, 184);
-                pdf.text('Generated by IC Engine AI - Professional Vehicle Physics Simulator', pageWidth/2, 260, { align: 'center' });
-                pdf.text('Real Physics Engine | BSFC Calculations | Environmental Analysis', pageWidth/2, 268, { align: 'center' });
+                pdf.text('IC Engine AI Simulator | Real Physics Engine', pw/2, 270, { align: 'center' });
+                pdf.text(`${new Date().getFullYear()} | Generated: ${new Date().toLocaleDateString()}`, pw/2, 278, { align: 'center' });
                 
-                // Save PDF
-                const fileName = `${car.name.replace(/\s+/g, '_')}_Report_${new Date().toISOString().split('T')[0]}.pdf`;
-                pdf.save(fileName);
-                
-                status.textContent = 'Report downloaded successfully!';
-                setTimeout(() => {
-                    modal.classList.remove('active');
-                }, 2000);
-                
-            } catch (error) {
-                console.error('PDF Error:', error);
-                status.textContent = 'Error generating PDF. Please try again.';
-                setTimeout(() => {
-                    modal.classList.remove('active');
-                }, 3000);
+                pdf.save(`${car.name.replace(/\s+/g,'_')}_Report.pdf`);
+                status.textContent = 'Report downloaded!';
+                setTimeout(() => modal.classList.remove('active'), 2000);
+            } catch(e) {
+                console.error(e);
+                status.textContent = 'Error. Try again.';
+                setTimeout(() => modal.classList.remove('active'), 3000);
             }
         }
 
-        // Event Listeners
-        document.querySelectorAll('.car-btn:not(.custom)').forEach(btn => {
-            btn.addEventListener('click', function() {
-                selectCar(this.getAttribute('data-car'), this);
-            });
-        });
-
-        document.getElementById('thr').addEventListener('input', updateSim);
-        document.getElementById('pas').addEventListener('input', updateSim);
-        ['terrain', 'ambientTemp', 'windCondition'].forEach(id => {
-            document.getElementById(id).addEventListener('change', updateSim);
-        });
-
-        window.onload = function() {
-            initCharts();
-            updateCharts(cars[currentCar]);
-            updateSim();
-        };
+        document.querySelectorAll('.car-btn:not(.custom)').forEach(b=>b.addEventListener('click',function(){selectCar(this.getAttribute('data-car'),this);}));
+        document.getElementById('thr').addEventListener('input',updateSim);
+        document.getElementById('pas').addEventListener('input',updateSim);
+        ['terrain','ambientTemp','windCondition'].forEach(id=>document.getElementById(id).addEventListener('change',updateSim));
+        window.onload=function(){initCharts();updateCharts(cars[currentCar]);updateSim();};
     </script>
 </body>
 </html>
-
